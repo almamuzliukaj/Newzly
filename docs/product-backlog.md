@@ -1,3 +1,4 @@
+User Stories
 1. User Registration – HIGH
 As a new user, I want to create an account so that I can access personalized features.
 
