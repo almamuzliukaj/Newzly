@@ -1,4 +1,4 @@
-User Stories
+Product Backlog
 1. User Registration – HIGH
 As a new user, I want to create an account so that I can access personalized features.
 
@@ -12,10 +12,10 @@ System checks for duplicate emails
 
 Password must be at least 8 characters
 
-Confirmation message after successful registration
+Success message after registration
 
 2. User Login – HIGH
-As a returning user, I want to log in so that I can manage my preferences and saved articles.
+As a returning user, I want to log in so that I can access my personalized content and saved articles.
 
 Acceptance Criteria:
 
@@ -27,82 +27,82 @@ System creates a session for the user
 
 "Remember me" option is available
 
-Error message shown on invalid login
+Error message if login fails
 
 3. Browse News Articles – HIGH
 As a user, I want to view the latest news articles so that I can stay informed.
 
 Acceptance Criteria:
 
-Articles displayed in a clean list or grid
+Articles are displayed in a clean grid or list layout
 
-Each article shows title, image, date, and brief description
+Each article shows headline, thumbnail, and short summary
 
-Pagination or infinite scroll is available
+News feed is automatically updated with the latest content
 
-Articles can be opened to read in full
+Articles are categorized by topic
 
 4. Search News – HIGH
 As a user, I want to search for news using keywords so that I can find relevant information quickly.
 
 Acceptance Criteria:
 
-Search bar is easily accessible
+Search bar is visible on all pages
 
-Search by keywords in titles and descriptions
+Search works with title, content, or tags
 
-Results update quickly
+Results are updated instantly as user types
 
-“No results found” message when nothing matches
+If no results found, show a "No articles found" message
 
 5. Responsive User Interface – HIGH
-As a mobile user, I want the interface to adapt to different screen sizes so that I can browse news comfortably.
+As a mobile user, I want the interface to adapt to different screen sizes so that I can browse comfortably.
 
 Acceptance Criteria:
 
 Layout adjusts for mobile, tablet, and desktop
 
-Navigation is optimized for touch devices
+Fonts and images scale for readability
 
-Text and images are readable without zoom
+Navigation is mobile-friendly (e.g., hamburger menu)
 
-Menu collapses on smaller screens
+Buttons and links are easily tappable on smaller screens
 
 6. Personalized News Feed – HIGH
 As a logged-in user, I want to see news based on my preferences so that the content is more relevant to me.
 
 Acceptance Criteria:
 
-News is filtered based on user preferences
+Feed displays articles based on user's selected categories and sources
 
-User sees a "Recommended for You" section
+Preferences are stored in the user profile
 
-Preferences affect ranking of articles
+System recommends articles using user interaction history
 
-Ability to refresh/reload personalized feed
+Users can update their preferences anytime
 
-7. Save Articles – MEDIUM
+7. Manage Preferences – MEDIUM
+As a user, I want to set my preferred news categories and sources so that I see relevant news.
+
+Acceptance Criteria:
+
+User can choose from a list of categories and sources
+
+Preferences are saved to the user's profile
+
+Changes are reflected immediately in the feed
+
+Option to reset preferences
+
+8. Save Articles – MEDIUM
 As a user, I want to save interesting articles so that I can read them later.
 
 Acceptance Criteria:
 
-Each article has a “Save” button
+Articles have a "Save" icon (e.g., bookmark)
 
-Saved articles persist across sessions
+Saved articles are stored in the user’s account
 
-Confirmation when article is saved
+User receives a confirmation when article is saved
 
-“Remove from saved” option available
-
-8. View Saved Articles – MEDIUM
-As a user, I want to view all the articles I’ve saved so that I can revisit them easily.
-
-Acceptance Criteria:
-
-Saved articles displayed in a list
-
-Each item links to the full article
-
-Option to remove articles from saved list
-
-Sorted by date saved or article date
+Articles can be unsaved from either feed or saved list
