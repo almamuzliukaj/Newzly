@@ -6,8 +6,8 @@ Newsly is a full-stack web application designed to aggregate and personalize new
 The system supports secure JWT-based authentication, provides RESTful API endpoints, and follows modular architecture to support scalability and fast development.
 
 ## Team Members
-- **Alma Muzliukaj – UI Design & Frontend Development
-- **Rinesa Bislimi – API Integration & Backend
+- **Alma Muzliukaj** – UI Design & Frontend Development
+- **Rinesa Bislimi** – API Integration & Backend
 
 **Note:** Both team members are collaborating on the full development of the software to ensure full functionality through effective teamwork and integration.
 
