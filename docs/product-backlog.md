@@ -90,3 +90,27 @@ As a user, I want to save interesting articles so that I can read them later.
 - User receives a **confirmation** when an article is saved
 - Articles can be **unsaved** from either feed or saved list
 
+  ---
+
+### 9. **View Saved Articles** – MEDIUM
+As a user, I want to view all the articles I’ve saved so that I can easily revisit them later.
+
+**Acceptance Criteria:**
+	•	User has access to a **“Saved Articles”** section in the navigation
+	•	**Saved articles** display headline, source, and date
+	•	User can **click** to read full article
+	•	Option to **remove** articles from saved list
+	•	If no articles are saved, display a **“No saved articles” message**
+
+ ---
+
+### 10. **Full-Text Search with ElasticSearch** – MEDIUM
+As a user, I want an advanced search engine so that I can get more accurate and faster results.
+
+**Acceptance Criteria:**
+	•	Search queries are handled using **ElasticSearch** for speed and relevance
+	•	Results include matches from **article titles, summaries, and content**
+	•	**Search highlights** matching keywords in the results
+	•	Support for filtering results by **date, category, or source**
+	•	System handles **large datasets** efficiently without delays
+
