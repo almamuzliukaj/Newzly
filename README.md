@@ -21,7 +21,7 @@ Instructions will be added as development progresses.
 - **Week 9**: Deployment
 - **Week 10**: Final presentation
 
-  ##  Features
+ ##  Features
 - 🔐 Secure user registration and login with JWT authentication
 - 📄 Browse latest news articles from multiple sources
 - 🔎 Real-time keyword search using ElasticSearch
