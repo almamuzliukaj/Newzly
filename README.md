@@ -1,4 +1,4 @@
-# Newsly
+# Newzly
 
 ## Project Description
 Newsly is a full-stack web application designed to aggregate and personalize news articles from external sources like Google News. Built using the MERN stack (MongoDB, Express.js, React.js, Node.js), the platform enables users to explore news by category, save articles, manage preferences, and search using ElasticSearch for relevant content.
