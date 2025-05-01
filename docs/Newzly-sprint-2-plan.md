@@ -40,6 +40,7 @@ Tasks:
 - Store preferences in MongoDB  
 - Apply preferences to filter articles in the feed  
 
+---
 
 ## Team Member Tasks
 
