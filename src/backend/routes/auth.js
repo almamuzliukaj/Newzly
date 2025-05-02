@@ -52,6 +52,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
 
+    
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: remember ? "7d" : "1h"
     });
@@ -79,3 +80,4 @@ router.post("/forgot-password", async (req, res) => {
 });
 
 module.exports = router;
+
