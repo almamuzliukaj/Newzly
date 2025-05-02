@@ -1,16 +1,17 @@
 const express = require("express");
+const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const sendEmail = require("../utils/sendEmail");
-const router = express.Router();
 
 // Register
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: "Email already registered" });
+    if (existingUser)
+      return res.status(400).json({ message: "Email already registered" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, email, password: hashedPassword });
@@ -25,6 +26,7 @@ router.post("/register", async (req, res) => {
 
     res.status(201).json({ message: "User registered. Check email to confirm." });
   } catch (err) {
+    console.error("Registration error:", err);
     res.status(500).json({ message: "Registration failed" });
   }
 });
@@ -44,7 +46,8 @@ router.post("/login", async (req, res) => {
   const { email, password, remember } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (!user || !user.confirmed) return res.status(400).json({ message: "Invalid or unconfirmed user" });
+    if (!user || !user.confirmed)
+      return res.status(400).json({ message: "Invalid or unconfirmed user" });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
