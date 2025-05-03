@@ -1,26 +1,34 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const authRoutes = require("./routes/auth");
+// server.js
 
-// Ngarkon variablat nga .env në rrënjë
-require("dotenv").config(); // kjo duhet të jetë e para
+const express = require('express');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const userRoutes = require('./routes/userRoutes');
 
+// Load environment variables
+dotenv.config();
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+const cors = require('cors');
 
-// Lidhja me MongoDB
-mongoose.connect(process.env.MONGO_URI)
+// Use CORS middleware
+app.use(cors());
 
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
+// If you need to allow requests only from specific origins, you can configure it like this:
+// app.use(cors({ origin: 'http://localhost:5173' }));
 
-// Rrugët API
-app.use("/api/auth", authRoutes);
+// Other middleware and routes
 
-// Fillon serverin
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Routes
+app.use('/api/users', userRoutes);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
