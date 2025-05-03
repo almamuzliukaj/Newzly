@@ -43,3 +43,4 @@ function ForgotPasswordForm({ onSwitch }) {
 }
 
 export default ForgotPasswordForm;
+

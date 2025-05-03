@@ -1,21 +1,22 @@
-const jwt = require('jsonwebtoken');
+// src/backend/middleware/authMiddleware.js
+const jwt = require('jsonwebtoken'); // assuming you are using JWT for authentication
 
+// Middleware function to check if the user is authenticated
 const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const token = req.header('Authorization')?.replace('Bearer ', ''); // Get token from Authorization header
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'No token provided' });
+  if (!token) {
+    return res.status(401).json({ message: 'Access Denied: No token provided' });
   }
 
-  const token = authHeader.split(' ')[1];
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
+    // Verify token and extract user information
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = verified; // Attach user data to request object
+    next(); // Proceed to the next middleware or route handler
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    return res.status(400).json({ message: 'Invalid Token' });
   }
 };
 
-module.exports = authMiddleware;
+module.exports = authMiddleware; // Export the middleware

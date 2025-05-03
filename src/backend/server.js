@@ -1,8 +1,10 @@
+// server.js
+
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
-
+const auth=require('./routes/auth');
 // Load environment variables
 dotenv.config();
 
@@ -19,8 +21,10 @@ app.use(cors());
 // Other middleware and routes
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
