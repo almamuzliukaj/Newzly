@@ -8,6 +8,7 @@ function RegisterForm({ onSwitch }) {
     password: ""
   });
 
+  
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {

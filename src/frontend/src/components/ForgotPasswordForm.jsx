@@ -5,6 +5,7 @@ function ForgotPasswordForm({ onSwitch }) {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");

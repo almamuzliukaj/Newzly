@@ -9,6 +9,7 @@ function LoginForm({ onSwitch, onForgot }) {
   });
   const [message, setMessage] = useState("");
 
+  
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
