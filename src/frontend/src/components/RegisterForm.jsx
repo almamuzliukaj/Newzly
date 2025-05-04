@@ -79,4 +79,5 @@ function RegisterForm({ onSwitch }) {
   );
 }
 
+
 export default RegisterForm;
