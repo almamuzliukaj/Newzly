@@ -1,30 +1,48 @@
+// src/App.jsx
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import RegisterForm from "./components/RegisterForm";
 import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+function Logout() {
+  const navigate = useNavigate();
+
+  // Clear tokens and redirect
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
+  navigate("/login");
+
+  return null; // Nothing to render
+}
 
 function App() {
-  const [view, setView] = useState("register"); // ose "login", "forgot"
-<p>Aktualisht në view: {view}</p>
+  const [isLogin, setIsLogin] = useState(true);
+
+  const toggleForm = () => {
+    setIsLogin((prev) => !prev);
+  };
 
   return (
     <div>
       <h1>Welcome to Newzly</h1>
-
-      {view === "register" && (
-        <RegisterForm onSwitch={() => setView("login")} />
-      )}
-
-      {view === "login" && (
-        <LoginForm
-          onSwitch={() => setView("register")}
-          onForgot={() => setView("forgot")}
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<LoginForm onSwitch={toggleForm} />} />
+        <Route path="/register" element={<RegisterForm onSwitch={toggleForm} />} />
+        <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
-      )}
-
-      {view === "forgot" && (
-        <ForgotPasswordForm onSwitch={() => setView("login")} />
-      )}
+        <Route path="/logout" element={<Logout />} />
+      </Routes>
     </div>
   );
 }

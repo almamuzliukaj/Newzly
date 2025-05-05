@@ -1,4 +1,6 @@
+// src/components/LoginForm.jsx
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function LoginForm({ onSwitch, onForgot }) {
@@ -9,7 +11,8 @@ function LoginForm({ onSwitch, onForgot }) {
   });
   const [message, setMessage] = useState("");
 
-  
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -28,6 +31,8 @@ function LoginForm({ onSwitch, onForgot }) {
       });
 
       const token = res.data.token;
+
+      // ✅ Save token with the SAME KEY across both storages
       if (formData.rememberMe) {
         localStorage.setItem("token", token);
       } else {
@@ -35,6 +40,7 @@ function LoginForm({ onSwitch, onForgot }) {
       }
 
       setMessage("✅ Login successful!");
+      navigate("/dashboard");
     } catch (err) {
       setMessage(err.response?.data?.message || "❌ Login failed");
     }
@@ -63,24 +69,26 @@ function LoginForm({ onSwitch, onForgot }) {
           <input
             type="checkbox"
             name="rememberMe"
+            checked={formData.rememberMe}
             onChange={handleChange}
           />
           Remember Me
-        </label><br />
+        </label>
+        <br />
         <button type="submit">Login</button>
       </form>
 
       <p>
         Don't have an account?{" "}
-        <button type="button" onClick={onSwitch}>
+        <button type="button" onClick={() => navigate("/register")}>
           Register
         </button>
       </p>
 
       <p>
-        Forgot password?{" "}
-        <button type="button" onClick={onForgot}>
-          Click here
+        Forgot your password?{" "}
+        <button type="button" onClick={() => navigate("/forgot-password")}>
+          Reset it
         </button>
       </p>
     </div>

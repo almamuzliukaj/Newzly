@@ -1,53 +1,77 @@
-import { useState } from "react"; 
+// src/components/RegisterForm.jsx
+import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function RegisterForm({ onSwitch }) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: "",
+    message: "",
   });
 
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage("");
-    setError("");
+    setFormData((prev) => ({
+      ...prev,
+      message: "",
+    }));
+
+    if (formData.password !== formData.confirmPassword) {
+      setFormData((prev) => ({
+        ...prev,
+        message: "❌ Passwords do not match",
+      }));
+      return;
+    }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/users/register", formData);
-      setMessage("User registered successfully!");
-      console.log("Registration response:", res.data);
-      // Mund të shtosh edhe redirect ose switch në login këtu
+      const res = await axios.post("http://localhost:5000/api/users/register", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      setFormData((prev) => ({
+        ...prev,
+        message: "✅ Registration successful!",
+      }));
+
+      navigate("/login");
     } catch (err) {
-      const msg = err.response?.data?.message || "Registration failed";
-      setError(msg);
-      console.error("Registration error:", err);
+      setFormData((prev) => ({
+        ...prev,
+        message: err.response?.data?.message || "❌ Registration failed",
+      }));
     }
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "0 auto" }}>
+    <div>
       <h2>Register</h2>
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      
+      {formData.message && <p>{formData.message}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="name"
-          placeholder="Name"
+          placeholder="Full Name"
           value={formData.name}
           onChange={handleChange}
           required
-        /><br />
-
+        />
+        <br />
         <input
           type="email"
           name="email"
@@ -55,8 +79,8 @@ function RegisterForm({ onSwitch }) {
           value={formData.email}
           onChange={handleChange}
           required
-        /><br />
-
+        />
+        <br />
         <input
           type="password"
           name="password"
@@ -64,8 +88,17 @@ function RegisterForm({ onSwitch }) {
           value={formData.password}
           onChange={handleChange}
           required
-        /><br />
-
+        />
+        <br />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          required
+        />
+        <br />
         <button type="submit">Register</button>
       </form>
 
@@ -78,6 +111,5 @@ function RegisterForm({ onSwitch }) {
     </div>
   );
 }
-
 
 export default RegisterForm;

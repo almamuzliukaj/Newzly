@@ -1,21 +1,25 @@
+// src/components/ForgotPasswordForm.jsx
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function ForgotPasswordForm({ onSwitch }) {
+function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate(); // for navigation
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/users/forgot-password", { email });
-      setMessage("📧 Check your inbox for reset link.");
-      console.log(res.data);
+      const res = await axios.post("http://localhost:5000/api/users/forgot-password", {
+        email,
+      });
+
+      setMessage("✅ Reset link sent! Check your email.");
     } catch (err) {
-      setMessage(err.response?.data?.message || "❌ Failed to send reset link");
+      setMessage(err.response?.data?.message || "❌ Failed to send reset link.");
     }
   };
 
@@ -27,15 +31,17 @@ function ForgotPasswordForm({ onSwitch }) {
         <input
           type="email"
           placeholder="Enter your email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-        /><br />
+        />
+        <br />
         <button type="submit">Send Reset Link</button>
       </form>
       <p>
-        Remembered your password?{" "}
-        <button type="button" onClick={onSwitch}>
-          Login
+        Remember your password?{" "}
+        <button type="button" onClick={() => navigate("/login")}>
+          Back to Login
         </button>
       </p>
     </div>
@@ -43,4 +49,3 @@ function ForgotPasswordForm({ onSwitch }) {
 }
 
 export default ForgotPasswordForm;
-
