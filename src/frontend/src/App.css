@@ -1,43 +1,74 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.form-container {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3rem 4rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  width: 100%;
+  max-width: 450px;
+  transition: transform 0.3s ease;
+}
+
+.form-container:hover {
+  transform: scale(1.02);
+}
+
+.form-container h2 {
+  font-size: 2.8rem;
   text-align: center;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 1px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.form-container input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.85);
+  color: #858585;
+  outline: none;
+  transition: box-shadow 0.3s;
 }
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.form-container input:focus {
+  box-shadow: 0 0 0 3px #646cff99;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form-container button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #646cff, #535bf2);
+  color: #ffffff;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.form-container button:hover {
+  background: linear-gradient(135deg, #535bf2, #747bff);
+  transform: translateY(-2px);
 }
 
-.card {
-  padding: 2em;
+.form-container button:active {
+  transform: scale(0.98);
 }
 
-.read-the-docs {
-  color: #888;
+.toggle-link {
+  color: #8ab4f8;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.toggle-link:hover {
+  color: #aecbfa;
 }
