@@ -11,7 +11,7 @@ function ForgotPasswordForm({ onSwitch }) {
     setMessage("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/forgot-password", { email });
+      const res = await axios.post("http://localhost:5000/api/users/forgot-password", { email });
       setMessage("📧 Check your inbox for reset link.");
       console.log(res.data);
     } catch (err) {
