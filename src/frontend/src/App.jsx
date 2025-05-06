@@ -6,7 +6,6 @@ import RegisterForm from "./components/RegisterForm";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import './index.css';  // For global styles like background and body styles
 import './app.css';  // For other app-specific styles
 
 
