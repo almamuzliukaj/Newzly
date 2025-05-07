@@ -8,7 +8,7 @@ Enhance the user experience by enabling categorized and country-based news brows
 
 ## 📅 Sprint Duration
 
-**1 week**  
+**3-4 weeks**  
 **May 02 – May 31, 2025**
 
 ---
