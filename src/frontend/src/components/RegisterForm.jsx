@@ -104,10 +104,11 @@ function RegisterForm({ onSwitch }) {
 
       <p>
         Already have an account?{" "}
-        <button type="button" onClick={onSwitch}>
+        <button type="button" onClick={() => navigate("/login")}>
           Login
         </button>
       </p>
+
     </div>
   );
 }
