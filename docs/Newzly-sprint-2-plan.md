@@ -1,65 +1,82 @@
-# Sprint 2 Plan 
+# 🚀 Sprint 2 Plan
 
-## Sprint Goal
-Enable news browsing by category, implement search functionality using ElasticSearch, and allow users to set and update their preferred categories and sources.
+## 🏁 Sprint Goal
 
-## Sprint Duration
-1 week (May 2 – May 9, 2025)
-
-## Selected User Stories
-
-1. **Browse News Articles** (HIGH)  
-As a user, I want to view the latest news articles so that I can stay informed.
-
-Tasks:
-- Integrate News API to fetch articles  
-- Display articles in grid/list layout on frontend  
-- Categorize articles and allow filtering  
-- Implement pagination to limit articles per page  
+Enhance the user experience by enabling categorized and country-based news browsing, adding error handling, and improving the responsive UI.
 
 ---
 
-2. **Search News with ElasticSearch** (HIGH)  
-As a user, I want to search for news using keywords so that I can find relevant information quickly.
+## 📅 Sprint Duration
 
-Tasks:
-- Index fetched articles into ElasticSearch  
-- Create backend search API endpoint  
-- Add search bar component to frontend  
-- Display search results in real time  
-- Show message if no results are found  
+**1 week**  
+**May 02 – May 31, 2025**
 
 ---
 
-3. **Manage Preferences** (MEDIUM)  
-As a user, I want to set my preferred news categories and sources so that I see relevant news.
+## 📌 Selected User Stories
 
-Tasks:
-- Build preferences UI (multi-select categories/sources)  
-- Implement backend endpoint for saving user preferences  
-- Store preferences in MongoDB  
-- Apply preferences to filter articles in the feed  
+### 1. Browse News by Category (HIGH)
+
+**Tasks:**
+- Create frontend structure for category-based routing
+- Design UI for category navigation (dropdown or menu)
+- Create API endpoint to fetch category-based news
+- Render categorized news using reusable card components
 
 ---
 
-## Team Member Tasks
+### 2. Browse News by Country (HIGH)
 
-**Alma Muzliukaj**  
-  - Design & implement frontend UI for browsing and preferences  
-  - Connect frontend to backend search API  
-  - Handle dynamic article rendering and filtering  
+**Tasks:**
+- Create dropdown UI for country selection (ISO codes)
+- Implement dynamic routing for `/country/:iso`
+- Connect API call to fetch country-specific news
+- Handle flag display for each country
 
-**Rinesa Bislimi**  
-  - Set up News API integration and article fetching logic  
-  - Configure and test ElasticSearch indexing  
-  - Develop backend routes for search and preferences  
+---
 
+### 3. View All News (HIGH)
 
-## Definition of Done
+**Tasks:**
+- Create page to fetch and display general news
+- Implement pagination to navigate between result pages
+- Display article data (title, image, summary, source)
 
-- Code is committed to the GitHub repository  
-- Features are tested and responsive  
-- News articles can be browsed, filtered, and searched  
-- Preferences are saved and applied correctly  
-- Code has been reviewed and documented by both team members  
+---
 
+### 4. Error Handling and Feedback (MEDIUM)
+
+**Tasks:**
+- Display user-friendly messages for failed API calls
+- Handle "No articles found" scenarios
+- Show fallback images or placeholders when data is missing
+
+---
+
+### 5. Logout Functionality (MEDIUM)
+
+**Tasks:**
+- Add logout button to header/navigation
+- Clear session/token on logout
+- Redirect user to login or home page after logout
+
+---
+
+## 👥 Team Member Tasks
+
+| Task Area                       | Alma Muzliukaj                     | Rinesa Bislimi                    |
+|----------------------------------|------------------------------------|-----------------------------------|
+| Category/Country UI Design      | ✅ UI Components                   | 🔄 Connect to API Routes          |
+| Routing & Navigation            | ✅ React Router Setup              | ✅ Backend endpoints for category/country |
+| Error Handling                  | 🔄 Frontend feedback messages      | 🔄 API error management           |
+| Logout Button                   | ✅ Logout button & redirect logic  | 🔄 Session/token clearing         |
+
+---
+
+## ✅ Definition of Done
+
+- All new features are functional and integrated with the existing system
+- Code is committed to the repository with clear commit messages
+- Functionality is tested across different screen sizes and use cases
+- Code is reviewed by the other team member
+- Sprint board is updated and all tasks are marked complete
