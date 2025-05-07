@@ -1,31 +1,42 @@
-# Newzly
+# 📰 Newzly
 
 ## Project Description
-Newzly is a full-stack web application designed to aggregate and personalize news articles from external sources like Google News. Built using the MERN stack (MongoDB, Express.js, React.js, Node.js), the platform enables users to explore news by category, save articles, manage preferences, and search using ElasticSearch for relevant content.
 
-The system supports secure JWT-based authentication, provides RESTful API endpoints, and follows modular architecture to support scalability and fast development.
+**Newzly** is a full-stack web application developed to aggregate and display news articles from external sources using the **MERN stack** (MongoDB, Express.js, React.js, and Node.js). The application enables users to register, log in, and browse categorized news from around the world, with an organized and responsive user interface.
+
+The system supports secure JWT-based user authentication and is built using a modular architecture that allows for scalability and organized development. News content is grouped by topics and countries, providing users with a structured browsing experience.
+
+---
 
 ## Team Members
-- **Alma Muzliukaj** – UI Design & Frontend Development
-- **Rinesa Bislimi** – API Integration & Backend
 
-**Note:** Both team members are collaborating on the full development of the software to ensure full functionality through effective teamwork and integration.
+- **Alma Muzliukaj** – UI Design & Frontend Development  
+- **Rinesa Bislimi** – API Integration & Backend Development  
+> *Both members are actively involved in all parts of development to ensure smooth integration and full system functionality.*
+
+---
 
 ## How to Set Up
-Instructions will be added as development progresses.
+
+Instructions for environment setup, backend configuration, and API integration will be provided as development progresses.
+
+---
 
 ## Project Timeline
-- **Week 5**: Project setup and planning
-- **Week 6–7**: Implementation
-- **Week 8**: Testing
-- **Week 9**: Deployment
-- **Week 10**: Final presentation
 
- ##  Features
-- 🔐 Secure user registration and login with JWT authentication
-- 📄 Browse latest news articles from multiple sources
-- 🔎 Real-time keyword search using ElasticSearch
-- 📱 Fully responsive UI for mobile and desktop
-- ❤️ Personalized news feed based on user preferences
-- 📥 Save favorite articles for later
+| Week     | Activities                        |
+|----------|-----------------------------------|
+| Week 5   | Project setup and planning        |
+| Week 6–7 | Feature implementation            |
+| Week 8   | Testing and debugging             |
+| Week 9   | Deployment preparation            |
+| Week 10  | Final presentation                |
 
+---
+
+## Features
+
+- 🔐 User registration and login with JWT authentication  
+- 🗂️ Browse latest news by category (e.g., sports, politics, technology)  
+- 🌍 Browse news by country using ISO codes  
+- 📱 Responsive design adaptable to multiple screen sizes  
