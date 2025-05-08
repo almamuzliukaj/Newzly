@@ -3,13 +3,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LoginForm({ onSwitch, onForgot }) {
+const API_URL = "http://localhost:5000/api/users/login";
+
+function LoginForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -24,15 +27,22 @@ function LoginForm({ onSwitch, onForgot }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+    setLoading(true);
+
+    if (!formData.email || !formData.password) {
+      setMessage("❌ All fields are required.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const res = await axios.post("http://localhost:5000/api/users/login", {
+      const res = await axios.post(API_URL, {
         email: formData.email,
         password: formData.password,
       });
 
       const token = res.data.token;
 
-      // ✅ Save token with the SAME KEY across both storages
       if (formData.rememberMe) {
         localStorage.setItem("token", token);
       } else {
@@ -43,6 +53,8 @@ function LoginForm({ onSwitch, onForgot }) {
       navigate("/dashboard");
     } catch (err) {
       setMessage(err.response?.data?.message || "❌ Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,14 +66,16 @@ function LoginForm({ onSwitch, onForgot }) {
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="Enter your email"
+          value={formData.email}
           onChange={handleChange}
           required
         /><br />
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Enter your password"
+          value={formData.password}
           onChange={handleChange}
           required
         /><br />
@@ -71,11 +85,13 @@ function LoginForm({ onSwitch, onForgot }) {
             name="rememberMe"
             checked={formData.rememberMe}
             onChange={handleChange}
-          />
+          />{" "}
           Remember Me
         </label>
         <br />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
 
       <p>

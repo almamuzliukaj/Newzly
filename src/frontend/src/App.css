@@ -107,7 +107,6 @@ button:hover {
 
 /* Switch/login/forgot text */
 p {
-  text-align: center;
   margin-top: 1rem;
   font-family: 'Inter', sans-serif;
 }
@@ -135,5 +134,4 @@ p:has(+ form),
 form + p {
   font-weight: 600;
   color: #b03030;
-  text-align: center;
 }
