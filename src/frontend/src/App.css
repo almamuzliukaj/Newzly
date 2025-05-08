@@ -18,6 +18,17 @@ body {
   font-family: 'Special Elite', serif;
 }
 
+#root{
+  background-color: #261414;
+    color: #ffffff;
+    margin: 34px;
+    padding: 35px;
+    box-shadow: rgba(40, 5,5, 80);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgb(208 208 208 / 60%);
+}
+
+
 /* Container for forms */
 .form-container {
   background: rgba(255, 255, 255, 0.85);
@@ -81,7 +92,7 @@ input[type="password"]:focus {
 button {
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  background-color: #333;
+  background-color:#626262;
   color: #f7f7f7;
   border: none;
   border-radius: 6px;
