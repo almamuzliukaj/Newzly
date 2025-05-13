@@ -20,6 +20,9 @@ function TopHeadlines() {
   }
 
   let pageSize = 6;
+   const GNEWS_API_KEY = 'fd6ce0d243b37b9b52e0ae591169c6b5'; // merr një falas në https://gnews.io
+  const fallbackGNewsUrl = `https://gnews.io/api/v4/top-headlines?token=${GNEWS_API_KEY}&lang=en&country=us&max=${pageSize}&page=${page}`;
+
 
   useEffect(() => {
     setIsLoading(true);
