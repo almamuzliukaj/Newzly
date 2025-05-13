@@ -6,18 +6,14 @@ import RegisterForm from "./components/RegisterForm";
 import ForgotPasswordForm from "./components/ForgotPasswordForm";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import './app.css';  // For other app-specific styles
-
+import './styles/App.css';
 
 function Logout() {
   const navigate = useNavigate();
-
-  // Clear tokens and redirect
   localStorage.removeItem("token");
   sessionStorage.removeItem("token");
   navigate("/login");
-
-  return null; // Nothing to render
+  return null;
 }
 
 function App() {
@@ -35,14 +31,12 @@ function App() {
         <Route path="/login" element={<LoginForm onSwitch={toggleForm} />} />
         <Route path="/register" element={<RegisterForm onSwitch={toggleForm} />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+        
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
         <Route path="/logout" element={<Logout />} />
       </Routes>
     </div>
