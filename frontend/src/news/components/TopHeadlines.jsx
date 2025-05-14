@@ -9,16 +9,31 @@ function TopHeadlines() {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const pageSize = 6;
   const GNEWS_API_KEY = 'fd6ce0d243b37b9b52e0ae591169c6b5';
+
+  // ✅ Fallback artikull nëse API dështon
+  const fallbackMockArticles = [
+    {
+      title: "News temporarily unavailable",
+      description: "Please check back soon. We are unable to fetch latest headlines at this time.",
+      url: "#",
+      urlToImage: "https://via.placeholder.com/400x200?text=No+News",
+      publishedAt: new Date().toISOString(),
+      author: "System",
+      source: { name: "Offline Source" }
+    }
+  ];
+
+  useEffect(() => {
+    setPage(1);
+  }, [category]);
 
   useEffect(() => {
     if (!category) return;
 
     setIsLoading(true);
-    setError(null);
 
     const primaryUrl = `http://localhost:5000/top-headlines?category=${category}&page=${page}&pageSize=${pageSize}`;
     const fallbackUrl = `https://gnews.io/api/v4/search?q=${category}&token=${GNEWS_API_KEY}&lang=en&max=${pageSize}&page=${page}`;
@@ -27,7 +42,6 @@ function TopHeadlines() {
       .then((res) => res.ok ? res.json() : Promise.reject("Primary API failed"))
       .then((json) => {
         if (json.success && json.data.articles.length > 0) {
-          // ✅ RENDITJA NGA MË E RE TE MË E VJETRA
           const sortedArticles = json.data.articles.sort((a, b) => {
             return new Date(b.publishedAt) - new Date(a.publishedAt);
           });
@@ -52,9 +66,9 @@ function TopHeadlines() {
             }
           })
           .catch(() => {
-            setError("Nuk u gjetën lajme për këtë kategori. Provo më vonë.");
-            setData([]);
-            setTotalResults(0);
+            // ✅ Asnjë error nuk shfaqet – vendos artikull placeholder
+            setData(fallbackMockArticles);
+            setTotalResults(1);
           });
       })
       .finally(() => {
@@ -67,8 +81,6 @@ function TopHeadlines() {
 
   return (
     <>
-      {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
-
       <div className="cards grid lg:grid-cols-2 xl:grid-cols-3 gap-6 p-4">
         {!isLoading ? (
           data.length > 0 ? (
@@ -94,21 +106,13 @@ function TopHeadlines() {
 
       {!isLoading && data.length > 0 && (
         <div className="pagination flex justify-center gap-10 my-10 items-center">
-          <button
-            className="pagination-btn"
-            onClick={handlePrev}
-            disabled={page === 1}
-          >
+          <button className="pagination-btn" onClick={handlePrev} disabled={page === 1}>
             Prev
           </button>
           <span className="font-semibold opacity-80">
             Page {page} of {Math.ceil(totalResults / pageSize)}
           </span>
-          <button
-            className="pagination-btn"
-            onClick={handleNext}
-            disabled={page >= Math.ceil(totalResults / pageSize)}
-          >
+          <button className="pagination-btn" onClick={handleNext} disabled={page >= Math.ceil(totalResults / pageSize)}>
             Next
           </button>
         </div>

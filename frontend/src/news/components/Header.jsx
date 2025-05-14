@@ -41,7 +41,7 @@ function Header() {
             <ul className={showCategoryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
               {category.map((element, index) => (
                 <li key={index} onClick={() => setShowCategoryDropdown(false)}>
-                  <Link to={`top-headlines/${element}`} className="flex gap-3 capitalize" onClick={() => setActive(false)}>
+                  <Link to={`/dashboard/top-headlines/${element}`} className="flex gap-3 capitalize" onClick={() => setActive(false)}>
                     {element}
                   </Link>
                 </li>
@@ -57,7 +57,7 @@ function Header() {
             <ul className={showCountryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
               {countries.map((element, index) => (
                 <li key={index} onClick={() => setShowCountryDropdown(false)}>
-                  <Link to={`country/${element?.iso_2_alpha}`} className="flex gap-3" onClick={() => setActive(false)}>
+                  <Link to={`/dashboard/country/${element?.iso_2_alpha}`} className="flex gap-3" onClick={() => setActive(false)}>
                     <img src={element?.png} srcSet={`https://flagcdn.com/32x24/${element?.iso_2_alpha}.png 2x`} alt={element?.countryName} />
                     <span>{element?.countryName}</span>
                   </Link>
