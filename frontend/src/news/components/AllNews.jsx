@@ -9,10 +9,9 @@ function AllNews() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const pageSize = 12;
+  const pageSize = 6;
 
-  // GNews API për fallback
-  const GNEWS_API_KEY = 'fd6ce0d243b37b9b52e0ae591169c6b5'; // merr një falas në https://gnews.io
+  const GNEWS_API_KEY = 'fd6ce0d243b37b9b52e0ae591169c6b5';
   const fallbackGNewsUrl = `https://gnews.io/api/v4/top-headlines?token=${GNEWS_API_KEY}&lang=en&country=us&max=${pageSize}&page=${page}`;
 
   function handlePrev() {
@@ -27,7 +26,7 @@ function AllNews() {
     setIsLoading(true);
     setError(null);
 
-    const primaryUrl = `https://news-aggregator-dusky.vercel.app/all-news?page=${page}&pageSize=${pageSize}`;
+    const primaryUrl = `http://localhost:5000/all-news?page=${page}&pageSize=${pageSize}`;
 
     fetch(primaryUrl)
       .then(response => {
@@ -52,7 +51,7 @@ function AllNews() {
           .then(backupJson => {
             if (backupJson.articles) {
               setData(backupJson.articles);
-              setTotalResults(100); // GNews nuk kthen totalResults
+              setTotalResults(1000); // fallback estimate
             } else {
               throw new Error("No articles from backup API");
             }
@@ -89,9 +88,25 @@ function AllNews() {
 
       {!isLoading && data.length > 0 && (
         <div className="pagination flex justify-center gap-14 my-10 items-center">
-          <button disabled={page <= 1} className='pagination-btn text-center' onClick={handlePrev}>&larr; Prev</button>
-          <p className='font-semibold opacity-80'>{page}</p>
-          <button className='pagination-btn text-center' disabled={data.length < pageSize} onClick={handleNext}>Next &rarr;</button>
+          <button
+            disabled={page <= 1}
+            className='pagination-btn text-center'
+            onClick={handlePrev}
+          >
+            &larr; Prev
+          </button>
+
+          <p className='font-semibold opacity-80'>
+            Page {page} of {Math.ceil(totalResults / pageSize)}
+          </p>
+
+          <button
+            className='pagination-btn text-center'
+            disabled={page >= Math.ceil(totalResults / pageSize)}
+            onClick={handleNext}
+          >
+            Next &rarr;
+          </button>
         </div>
       )}
     </>
