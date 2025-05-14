@@ -27,10 +27,14 @@ function EverythingCard(props) {
         href={props.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-3 text-blue-600 underline text-sm"
+        className="mt-3 inline-flex items-center gap-2 px-4 py-2 border border-[#6e5844] text-[#6e5844] font-semibold rounded-md text-sm hover:bg-[#6e5844] hover:text-white transition"
       >
         Read More
+        <span className="text-lg">→</span>
       </a>
+
+
+
     </div>
   );
 }

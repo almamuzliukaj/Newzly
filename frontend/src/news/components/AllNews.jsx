@@ -71,7 +71,7 @@ function AllNews() {
     <>
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
-      <div className='my-10 cards grid lg:place-content-center md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 xs:grid-cols-1 xs:gap-4 md:gap-10 lg:gap-14 md:px-16 xs:p-3 '>
+      <div className="cards grid lg:grid-cols-2 xl:grid-cols-3 gap-6 p-4">
         {!isLoading ? data.map((element, index) => (
           <EverythingCard
             title={element.title}

@@ -105,7 +105,7 @@ ul li ul li {
 
 ul li ul li a:hover {
     padding-left: 10px;
-    border-left: 2px solid #3ca0e7;
+    border-left: 2px solid #9e8365;
     transition: all 0.3s ease;
 }
 
@@ -223,7 +223,7 @@ ul li ul li a:hover {
   overflow: hidden;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  background-color: rgb(177, 121, 121); /* or dark variant if needed */
+  background-color: rgb(153, 125, 98); /* or dark variant if needed */
   margin:15px;
 }
 
@@ -231,7 +231,7 @@ ul li ul li a:hover {
     transform: translateY(-2px);
     transition: transform 0.2s ease-in-out;
     background: var(--primary);
-    box-shadow: 0 0 11px grey;
+    box-shadow: 0 0 11px rgb(100, 99, 99);
 }
 
 .everything-card-img {

@@ -14,21 +14,10 @@
 .register-container input {
   padding: 0.7rem 1rem;
   font-size: 1rem;
-  border: 1px solid #aaa;
+  border: 1px solid #646464;
   border-radius: 6px;
   background-color: #fdfdfb;
   margin-bottom: 0.5rem;
-}
-
-.register-container button {
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  background-color: #626262;
-  color: #f7f7f7;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .register-container button:hover {
