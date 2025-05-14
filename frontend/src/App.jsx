@@ -1,4 +1,3 @@
-// src/App.jsx
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import LoginForm from "./components/LoginForm";
@@ -30,12 +29,14 @@ function App() {
         <Route path="/login" element={<LoginForm onSwitch={toggleForm} />} />
         <Route path="/register" element={<RegisterForm onSwitch={toggleForm} />} />
         <Route path="/forgot-password" element={<ForgotPasswordForm />} />
-        
-        <Route path="/dashboard" element={
+
+        {/* ✅ FIXED: tani përmban `/*` që lejon child-routes */}
+        <Route path="/dashboard/*" element={
           <ProtectedRoute>
             <Dashboard />
           </ProtectedRoute>
         } />
+
         <Route path="/logout" element={<Logout />} />
       </Routes>
     </div>

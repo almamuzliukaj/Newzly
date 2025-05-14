@@ -11,10 +11,21 @@ function NewsDashboard() {
     <div className="w-full min-h-screen">
       <Header />
       <Routes>
-        <Route path="/dashboard" element={<AllNews />} />
-        <Route path="/dashboard/top-headlines/:category" element={<TopHeadlines />} />
-        <Route path="/dashboard/country/:iso" element={<CountryNews />} />
-      </Routes>
+  <Route path="/" element={<Navigate to="/login" />} />
+  <Route path="/login" element={<LoginForm onSwitch={toggleForm} />} />
+  <Route path="/register" element={<RegisterForm onSwitch={toggleForm} />} />
+  <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+
+  {/* ✅ Rregulluar me /* që lejon child-routes */}
+  <Route path="/dashboard/*" element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  } />
+
+  <Route path="/logout" element={<Logout />} />
+</Routes>
+
     </div>
   );
 }

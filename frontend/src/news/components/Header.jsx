@@ -1,3 +1,4 @@
+// frontend/src/news/components/Header.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import countries from "./countries";
@@ -26,11 +27,15 @@ function Header() {
         <h3 className="relative heading font-bold md:basis-1/6 text-2xl xs:basis-4/12 z-50 mb-5 mt-5">News_Aggregator</h3>
 
         <ul className={active ? "nav-ul flex gap-11 md:gap-14 xs:gap-12 lg:basis-3/6 md:basis-4/6 md:justify-end active" : "nav-ul flex gap-14 lg:basis-3/6 md:basis-4/6 justify-end"}>
-          <li><Link className="no-underline font-semibold" to="">All News</Link></li>
+          <li>
+            <Link className="no-underline font-semibold" to="/dashboard">
+              All News
+            </Link>
+          </li>
 
           <li className="dropdown-li">
             <Link className="no-underline font-semibold flex items-center gap-2" onClick={() => { setShowCategoryDropdown(!showCategoryDropdown); setShowCountryDropdown(false); }}>
-              Top-Headlines 
+              Top-Headlines
               <FontAwesomeIcon className={showCategoryDropdown ? "down-arrow-icon down-arrow-icon-active" : "down-arrow-icon"} icon={faCircleArrowDown} />
             </Link>
             <ul className={showCategoryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
@@ -53,11 +58,7 @@ function Header() {
               {countries.map((element, index) => (
                 <li key={index} onClick={() => setShowCountryDropdown(false)}>
                   <Link to={`country/${element?.iso_2_alpha}`} className="flex gap-3" onClick={() => setActive(false)}>
-                    <img
-                      src={element?.png}
-                      srcSet={`https://flagcdn.com/32x24/${element?.iso_2_alpha}.png 2x`}
-                      alt={element?.countryName}
-                    />
+                    <img src={element?.png} srcSet={`https://flagcdn.com/32x24/${element?.iso_2_alpha}.png 2x`} alt={element?.countryName} />
                     <span>{element?.countryName}</span>
                   </Link>
                 </li>

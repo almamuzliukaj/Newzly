@@ -16,30 +16,37 @@ function TopHeadlines() {
 
   useEffect(() => {
     if (!category) return;
+
     setIsLoading(true);
     setError(null);
 
-    const primaryUrl = `https://news-aggregator-dusky.vercel.app/top-headlines?language=en&category=${category}&page=${page}&pageSize=${pageSize}`;
+    const primaryUrl = `http://localhost:5000/top-headlines?category=${category}&page=${page}&pageSize=${pageSize}`;
     const fallbackUrl = `https://gnews.io/api/v4/search?q=${category}&token=${GNEWS_API_KEY}&lang=en&max=${pageSize}&page=${page}`;
 
     fetch(primaryUrl)
       .then((res) => res.ok ? res.json() : Promise.reject("Primary API failed"))
       .then((json) => {
         if (json.success && json.data.articles.length > 0) {
-          setData(json.data.articles);
+          // ✅ RENDITJA NGA MË E RE TE MË E VJETRA
+          const sortedArticles = json.data.articles.sort((a, b) => {
+            return new Date(b.publishedAt) - new Date(a.publishedAt);
+          });
+          setData(sortedArticles);
           setTotalResults(json.data.totalResults);
         } else {
           throw new Error("Primary API returned no articles");
         }
       })
       .catch(() => {
-        // Fallback to GNews API
         fetch(fallbackUrl)
           .then((res) => res.ok ? res.json() : Promise.reject("Fallback API failed"))
           .then((json) => {
             if (json.articles && json.articles.length > 0) {
-              setData(json.articles);
-              setTotalResults(1000); // Estimate
+              const sortedFallback = json.articles.sort((a, b) => {
+                return new Date(b.publishedAt) - new Date(a.publishedAt);
+              });
+              setData(sortedFallback);
+              setTotalResults(1000);
             } else {
               throw new Error("No articles in fallback");
             }
@@ -55,18 +62,13 @@ function TopHeadlines() {
       });
   }, [page, category]);
 
-  const handlePrev = () => {
-    setPage((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handleNext = () => {
-    setPage((prev) => prev + 1);
-  };
+  const handlePrev = () => setPage((prev) => Math.max(prev - 1, 1));
+  const handleNext = () => setPage((prev) => prev + 1);
 
   return (
     <>
       {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
-      
+
       <div className="cards grid lg:grid-cols-2 xl:grid-cols-3 gap-6 p-4">
         {!isLoading ? (
           data.length > 0 ? (
