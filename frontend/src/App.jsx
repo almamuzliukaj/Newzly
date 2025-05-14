@@ -25,7 +25,6 @@ function App() {
 
   return (
     <div>
-      <h1>Welcome to Newzly</h1>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<LoginForm onSwitch={toggleForm} />} />

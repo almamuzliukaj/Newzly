@@ -1,13 +1,11 @@
+// Dashboard.jsx
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "../news/components/Header";
 import AllNews from "../news/components/AllNews";
 import TopHeadlines from "../news/components/TopHeadlines";
 import CountryNews from "../news/components/CountryNews";
-// import './Dashboard.css'; <-- e heqim
 import "../news/style.css";
-
-
 
 function Dashboard() {
   return (

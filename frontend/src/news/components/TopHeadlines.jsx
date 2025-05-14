@@ -1,87 +1,114 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom'
-import EverythingCard from './EverythingCard'
+import { useParams } from 'react-router-dom';
+import EverythingCard from './EverythingCard';
 import Loader from "./Loader";
 
 function TopHeadlines() {
-  const params = useParams();
+  const { category } = useParams();
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  function handlePrev() {
-    setPage(page - 1);
-  }
-
-  function handleNext() {
-    setPage(page + 1);
-  }
-
-  let pageSize = 6;
-   const GNEWS_API_KEY = 'fd6ce0d243b37b9b52e0ae591169c6b5'; // merr një falas në https://gnews.io
-  const fallbackGNewsUrl = `https://gnews.io/api/v4/top-headlines?token=${GNEWS_API_KEY}&lang=en&country=us&max=${pageSize}&page=${page}`;
-
+  const pageSize = 6;
+  const GNEWS_API_KEY = 'fd6ce0d243b37b9b52e0ae591169c6b5';
 
   useEffect(() => {
+    if (!category) return;
     setIsLoading(true);
     setError(null);
-    const categoryParam = params.category ? `&category=${params.category}` : "";
-    fetch(`https://news-aggregator-dusky.vercel.app/top-headlines?language=en${categoryParam}&page=${page}&pageSize=${pageSize}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('Network response was not ok');
-      })
+
+    const primaryUrl = `https://news-aggregator-dusky.vercel.app/top-headlines?language=en&category=${category}&page=${page}&pageSize=${pageSize}`;
+    const fallbackUrl = `https://gnews.io/api/v4/search?q=${category}&token=${GNEWS_API_KEY}&lang=en&max=${pageSize}&page=${page}`;
+
+    fetch(primaryUrl)
+      .then((res) => res.ok ? res.json() : Promise.reject("Primary API failed"))
       .then((json) => {
-        if (json.success) {
-          setTotalResults(json.data.totalResults);
+        if (json.success && json.data.articles.length > 0) {
           setData(json.data.articles);
+          setTotalResults(json.data.totalResults);
         } else {
-          setError(json.message || 'An error occurred');
+          throw new Error("Primary API returned no articles");
         }
       })
-      .catch((error) => {
-        console.error('Fetch error:', error);
-        setError('Failed to fetch news. Please try again later.');
+      .catch(() => {
+        // Fallback to GNews API
+        fetch(fallbackUrl)
+          .then((res) => res.ok ? res.json() : Promise.reject("Fallback API failed"))
+          .then((json) => {
+            if (json.articles && json.articles.length > 0) {
+              setData(json.articles);
+              setTotalResults(1000); // Estimate
+            } else {
+              throw new Error("No articles in fallback");
+            }
+          })
+          .catch(() => {
+            setError("Nuk u gjetën lajme për këtë kategori. Provo më vonë.");
+            setData([]);
+            setTotalResults(0);
+          });
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [page, params.category]);
+  }, [page, category]);
+
+  const handlePrev = () => {
+    setPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNext = () => {
+    setPage((prev) => prev + 1);
+  };
 
   return (
     <>
-      {error && <div className="text-red-500 mb-4">{error}</div>}
-      <div className='my-10 cards grid lg:place-content-center md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 xs:grid-cols-1 xs:gap-4 md:gap-10 lg:gap-14 md:px-16 xs:p-3 '>
+      {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+      
+      <div className="cards grid lg:grid-cols-2 xl:grid-cols-3 gap-6 p-4">
         {!isLoading ? (
           data.length > 0 ? (
-            data.map((element, index) => (
+            data.map((article, index) => (
               <EverythingCard
                 key={index}
-                title={element.title}
-                description={element.description}
-                imgUrl={element.urlToImage}
-                publishedAt={element.publishedAt}
-                url={element.url}
-                author={element.author}
-                source={element.source.name}
+                title={article.title}
+                description={article.description}
+                imgUrl={article.urlToImage || article.image}
+                publishedAt={article.publishedAt}
+                url={article.url}
+                author={article.author || article.source?.name}
+                source={article.source?.name || "Unknown"}
               />
             ))
           ) : (
-            <p>No articles found for this category or criteria.</p>
+            <p className="text-center text-gray-600 col-span-full">Nuk ka lajme për këtë kategori.</p>
           )
         ) : (
           <Loader />
         )}
       </div>
+
       {!isLoading && data.length > 0 && (
-        <div className="pagination flex justify-center gap-14 my-10 items-center">
-          <button disabled={page <= 1} className='pagination-btn' onClick={handlePrev}>Prev</button>
-          <p className='font-semibold opacity-80'>{page} of {Math.ceil(totalResults / pageSize)}</p>
-          <button className='pagination-btn' disabled={page >= Math.ceil(totalResults / pageSize)} onClick={handleNext}>Next</button>
+        <div className="pagination flex justify-center gap-10 my-10 items-center">
+          <button
+            className="pagination-btn"
+            onClick={handlePrev}
+            disabled={page === 1}
+          >
+            Prev
+          </button>
+          <span className="font-semibold opacity-80">
+            Page {page} of {Math.ceil(totalResults / pageSize)}
+          </span>
+          <button
+            className="pagination-btn"
+            onClick={handleNext}
+            disabled={page >= Math.ceil(totalResults / pageSize)}
+          >
+            Next
+          </button>
         </div>
       )}
     </>

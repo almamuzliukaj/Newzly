@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './LoginForm.css';
@@ -14,6 +14,16 @@ function LoginForm() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // 👉 Kjo do vendosë klasën për temën e login-it vetëm për këtë komponent
+  useEffect(() => {
+    document.body.classList.add("auth-theme");
+    document.body.classList.remove("dashboard-theme");
+
+    return () => {
+      document.body.classList.remove("auth-theme");
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

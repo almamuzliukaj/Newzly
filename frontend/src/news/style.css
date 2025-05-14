@@ -6,7 +6,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: black;
+    color: rgb(255, 253, 253);
 }
 
 html, body {
@@ -248,6 +248,7 @@ ul li ul li a:hover {
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   background-color: rgb(177, 121, 121); /* or dark variant if needed */
+  margin:15px;
 }
 
 .everything-card:hover {
