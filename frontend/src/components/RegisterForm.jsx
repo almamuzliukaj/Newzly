@@ -1,9 +1,9 @@
-// src/components/RegisterForm.jsx
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import './RegisterForm.css';
 
-function RegisterForm({ onSwitch }) {
+function RegisterForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -38,7 +38,7 @@ function RegisterForm({ onSwitch }) {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/users/register", {
+      await axios.post("http://localhost:5000/api/users/register", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -59,7 +59,7 @@ function RegisterForm({ onSwitch }) {
   };
 
   return (
-    <div>
+    <div className="register-container">
       <h2>Register</h2>
       {formData.message && <p>{formData.message}</p>}
       <form onSubmit={handleSubmit}>
@@ -108,7 +108,6 @@ function RegisterForm({ onSwitch }) {
           Login
         </button>
       </p>
-
     </div>
   );
 }

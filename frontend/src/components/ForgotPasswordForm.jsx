@@ -1,19 +1,19 @@
-// src/components/ForgotPasswordForm.jsx
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import './ForgotPasswordForm.css';
 
 function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // for navigation
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/users/forgot-password", {
+      await axios.post("http://localhost:5000/api/users/forgot-password", {
         email,
       });
 
@@ -24,7 +24,7 @@ function ForgotPasswordForm() {
   };
 
   return (
-    <div>
+    <div className="forgot-container">
       <h2>Forgot Password</h2>
       {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>

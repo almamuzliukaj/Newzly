@@ -1,0 +1,7 @@
+/* Dashboard.css */
+.dashboard-wrapper {
+  width: 100%;
+  padding-top: 80px;
+  min-height: 100vh;
+  background-color: transparent;
+}

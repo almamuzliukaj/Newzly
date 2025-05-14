@@ -1,7 +1,7 @@
-// src/components/LoginForm.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import './LoginForm.css';
 
 const API_URL = "http://localhost:5000/api/users/login";
 
@@ -13,7 +13,6 @@ function LoginForm() {
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -59,7 +58,7 @@ function LoginForm() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
       {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>
