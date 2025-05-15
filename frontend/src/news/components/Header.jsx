@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import countries from "./countries";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,7 +52,11 @@ function Header() {
             <ul className={showCountryDropdown ? "dropdown p-2 show-dropdown" : "dropdown p-2"}>
               {countries.map((element, index) => (
                 <li key={index} onClick={() => setShowCountryDropdown(false)}>
-                  <Link to={`/dashboard/country/${element?.iso_2_alpha}`} className="flex gap-3 text-[#3a2d25]" onClick={() => setActive(false)}>
+                  <Link 
+                    to={`/dashboard/country/${element?.iso_2_alpha.toLowerCase()}`} 
+                    className="flex gap-3 text-[#3a2d25]" 
+                    onClick={() => setActive(false)}
+                  >
                     <img src={element?.png} srcSet={`https://flagcdn.com/32x24/${element?.iso_2_alpha}.png 2x`} alt={element?.countryName} />
                     <span>{element?.countryName}</span>
                   </Link>
@@ -61,7 +65,6 @@ function Header() {
             </ul>
           </li>
 
-          {/* Këtu vjen butoni Logout */}
           <li>
             <button
               onClick={() => {

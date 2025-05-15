@@ -1,4 +1,3 @@
-// frontend/src/pages/Dashboard.jsx
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "../news/components/Header";

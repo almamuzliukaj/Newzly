@@ -19,25 +19,47 @@ function CountryNews() {
     setIsLoading(true);
     setError(null);
 
+    // URL i primar per backend lokal
     const primaryUrl = `https://news-aggregator-dusky.vercel.app/country/${iso}?page=${page}&pageSize=${pageSize}`;
+
+    // URL fallback per API te jashtme
     const fallbackUrl = `https://gnews.io/api/v4/top-headlines?token=${GNEWS_API_KEY}&lang=en&country=${iso.toLowerCase()}&max=${pageSize}&page=${page}`;
 
     fetch(primaryUrl)
-      .then((res) => res.ok ? res.json() : Promise.reject("Primary failed"))
+      .then((res) => {
+        if (!res.ok) throw new Error("Primary API failed");
+        return res.json();
+      })
       .then((json) => {
-        if (json.success) {
+        console.log("Primary API response:", JSON.stringify(json, null, 2));
+        // Kontrolloj nese json eshte array artikujsh direkt
+        if (Array.isArray(json)) {
+          setData(json);
+          setTotalResults(json.length);
+        }
+        // Kontrolloj nese json ka formen e pritur nga backend-i
+        else if (json.success && json.data && json.data.articles && json.data.articles.length > 0) {
           setData(json.data.articles);
           setTotalResults(json.data.totalResults);
-        } else {
-          throw new Error("No success in response");
+        }
+        else {
+          throw new Error("No articles from primary API");
         }
       })
       .catch(() => {
         fetch(fallbackUrl)
-          .then((res) => res.ok ? res.json() : Promise.reject())
+          .then((res) => {
+            if (!res.ok) throw new Error("Fallback API failed");
+            return res.json();
+          })
           .then((json) => {
-            setData(json.articles);
-            setTotalResults(1000);
+            console.log("Fallback API response:", JSON.stringify(json, null, 2));
+            if (json.articles && json.articles.length > 0) {
+              setData(json.articles);
+              setTotalResults(1000);
+            } else {
+              throw new Error("No articles from fallback API");
+            }
           })
           .catch(() => {
             setError("Failed to load news for this country.");
