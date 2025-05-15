@@ -146,6 +146,7 @@ width: 30px;
 display: none;
 z-index: 100;
 cursor: pointer;
+background-color: #a8957b;
 }
 
 .ham-burger:hover {
