@@ -5,6 +5,22 @@ import AllNews from "./components/AllNews";
 import TopHeadlines from "./components/TopHeadlines";
 import CountryNews from "./components/CountryNews";
 import "./App.css";
+import CountrySelector from './CountrySelector';
+
+function App() {
+  return (
+    <Router>
+      <div className="container mx-auto p-4">
+        <CountrySelector />
+
+        <Routes>
+          <Route path="/" element={<Navigate to="/country/us" />} />
+          <Route path="/country/:iso" element={<CountryNews />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
 
 function NewsDashboard() {
   return (
