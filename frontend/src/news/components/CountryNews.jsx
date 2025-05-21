@@ -61,7 +61,9 @@ function CountryNews() {
               throw new Error("No articles from fallback API");
             }
           })
-
+          .catch(() => {
+            setError("Failed to load news for this country.");
+          });
       })
       .finally(() => {
         setIsLoading(false);
