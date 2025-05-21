@@ -69,18 +69,25 @@ app.get('/all-news', async (req, res) => {
 });
 
 // ✅ Endpoint për Top Headlines sipas kategorisë
+// ✅ Endpoint për Top Headlines sipas kategorisë dhe vendit (US default)
 app.get('/top-headlines', async (req, res) => {
-  const { category = "general", page = 1, pageSize = 6 } = req.query;
+  const { category = "general", page = 1, pageSize = 6, country = "us" } = req.query;
   const NEWS_API_KEY = process.env.NEWS_API_KEY;
 
-  const url = `https://newsapi.org/v2/top-headlines?category=${category}&language=en&page=${page}&pageSize=${pageSize}&apiKey=${NEWS_API_KEY}`;
+  const url = `https://newsapi.org/v2/top-headlines?category=${category}&country=${country}&page=${page}&pageSize=${pageSize}&apiKey=${NEWS_API_KEY}`;
 
   try {
     const response = await fetch(url);
     const data = await response.json();
 
     if (data.status === 'ok') {
-      res.json({ success: true, data: { totalResults: data.totalResults, articles: data.articles } });
+      res.json({
+        success: true,
+        data: {
+          totalResults: data.totalResults,
+          articles: data.articles,
+        }
+      });
     } else {
       res.status(500).json({ success: false, message: 'Error from NewsAPI', data });
     }
@@ -89,6 +96,7 @@ app.get('/top-headlines', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
+
 
 // ✅ Endpoint për lajme vetëm për 10 vende të lejuara me ruajtje në MongoDB
 const allowedCountries = ['us', 'gb', 'fr', 'de', 'it', 'br', 'ca', 'au', 'in', 'jp'];
