@@ -51,22 +51,31 @@ const loginUser = async (req, res) => {
   }
 };
 
-const forgotPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      return res.status(400).json({ message: 'Please provide both email and new password' });
+    }
 
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Këtu mund të shtosh logjikën për të gjeneruar një token për reset dhe dërgimin me email
-    // Sugjerim: përdor nodemailer për të dërguar emailin me një link për reset
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
 
-    res.status(200).json({ message: 'Password reset link sent (not implemented)' });
+    res.status(200).json({ message: 'Password successfully reset.' });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
 
-module.exports = { registerUser, loginUser, forgotPassword };
+module.exports = {
+  registerUser,
+  loginUser,
+  resetPassword,
+};

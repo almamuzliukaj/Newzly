@@ -17,6 +17,9 @@ body {
   padding: 1rem;
   font-family: 'Special Elite', serif;
 }
+.main-content {
+  padding-top: 80px; /* Largësia për shkak të header-it fixed */
+}
 
 #root{
   background-color: #261414;
@@ -139,4 +142,54 @@ p:has(+ form),
 form + p {
   font-weight: 600;
   color: #b03030;
+}
+.news-page {
+  padding: 2rem;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+/* Responsive layout for news grid */
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Responsive hamburger menu */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: #1f2937;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 1000;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .hamburger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+  }
+
+  .dropdown-content {
+    position: static;
+    background-color: transparent;
+    box-shadow: none;
+  }
 }

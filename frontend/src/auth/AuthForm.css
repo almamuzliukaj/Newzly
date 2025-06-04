@@ -1,0 +1,132 @@
+/* Background for login/register/forgot password */
+.login-background {
+  min-height: 100vh;
+  background: url('/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.login-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+/* Container for auth forms */
+.auth-container {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.93);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Headings */
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.7rem;
+}
+
+/* Form styling */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form input {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fdfdfb;
+}
+
+.auth-form button {
+  padding: 0.75rem;
+  font-size: 1rem;
+  background-color: #4a3f3f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-form button:hover {
+  background-color: #3a2418;
+}
+
+/* Links and extras */
+.auth-form p {
+  margin-top: 1rem;
+  text-align: center;
+  color: #444;
+}
+
+.auth-form a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-form a:hover {
+  text-decoration: underline;
+}
+
+/* Error and Success messages */
+.error-msg {
+  color: #b03030;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.success-msg {
+  color: #0b7c2d;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.auth-form p {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #444;
+}
+.auth-form a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+}
+.auth-form a:hover {
+  text-decoration: underline;
+}
+h2{
+  padding: 80px 0px 0px 0px;
+}
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 1.5rem;
+  }
+
+  .auth-container h2 {
+    font-size: 1.4rem;
+  }
+
+  .auth-form input {
+    font-size: 0.95rem;
+  }
+}

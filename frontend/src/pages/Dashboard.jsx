@@ -1,20 +1,15 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Header from "../news/components/Header";
-import AllNews from "../news/components/AllNews";
-import TopHeadlines from "../news/components/TopHeadlines";
-import CountryNews from "../news/components/CountryNews";
-import "../news/style.css";
+import { Link } from "react-router-dom";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
   return (
-    <div className="w-full min-h-screen pt-20">
-      <Header />
-      <Routes>
-        <Route path="/" element={<AllNews />} />
-        <Route path="top-headlines/:category" element={<TopHeadlines />} />
-        <Route path="country/:iso" element={<CountryNews />} />
-      </Routes>
+    <div className="dashboard">
+      <h2>📊 Welcome to Your News Dashboard</h2>
+      <div className="dashboard-links">
+        <Link to="/all-news">🌍 All News</Link>
+        <Link to="/top-headlines">🔥 Top Headlines</Link>
+        <Link to="/country/us">🇺🇸 Country News (US)</Link>
+      </div>
     </div>
   );
 }

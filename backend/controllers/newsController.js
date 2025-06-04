@@ -1,56 +1,187 @@
-//controllers/newsController.js
+const axios = require("axios");
+const News = require("../models/News");
 
-const News = require("./models/News");
-
-const allowedCountries = ['us', 'gb', 'fr', 'de', 'it', 'br', 'ca', 'au', 'in', 'jp'];
-
-app.get('/country/:iso', async (req, res) => {
-  const { iso } = req.params;
-  const page = parseInt(req.query.page) || 1;
-  const pageSize = parseInt(req.query.pageSize) || 6;
-
-  if (!allowedCountries.includes(iso.toLowerCase())) {
-    return res.status(403).json({ success: false, message: 'News for this country is not available.' });
-  }
-
+const getAllNews = async (req, res) => {
   try {
-    // Kontrollo nese kemi lajme te ruajtura ne MongoDB per kete vend
-    const cachedNews = await News.find({ country: iso.toLowerCase() })
-                                 .sort({ publishedAt: -1 })
-                                 .limit(pageSize)
-                                 .skip((page - 1) * pageSize);
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+
+    const response = await axios.get("https://newsapi.org/v2/everything", {
+      params: {
+        q: "news",
+        sortBy: "publishedAt",
+        language: "en",
+        page,
+        pageSize,
+        apiKey: process.env.NEWS_API_KEY,
+      },
+    });
+
+    const articles = response.data.articles;
+
+    for (const article of articles) {
+      await News.updateOne(
+        { title: article.title },
+        { ...article, savedAt: new Date() },
+        { upsert: true }
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      fromCache: false,
+      data: {
+        totalResults: response.data.totalResults,
+        articles,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching all news:", error.message);
+
+    const cachedNews = await News.find()
+      .sort({ savedAt: -1 })
+      .limit(10);
 
     if (cachedNews.length > 0) {
-      return res.json({
+      return res.status(200).json({
         success: true,
+        fromCache: true,
         data: {
           totalResults: cachedNews.length,
           articles: cachedNews,
-        }
+        },
       });
     }
 
-    // Nëse s’ka, kërko nga NewsAPI
-    const NEWS_API_KEY = process.env.NEWS_API_KEY;
-    const url = `https://newsapi.org/v2/top-headlines?country=${iso}&page=${page}&pageSize=${pageSize}&apiKey=${NEWS_API_KEY}`;
-    const response = await fetch(url);
-    const data = await response.json();
+    res.status(500).json({ message: "Failed to fetch all news" });
+  }
+};
 
-    if (data.status === 'ok' && data.articles.length > 0) {
-      // Ruaj në MongoDB
-      const newsToSave = data.articles.map(article => ({
-        ...article,
-        country: iso.toLowerCase(),
-      }));
+const getTopHeadlines = async (req, res) => {
+  try {
+    const category = req.query.category || "general";
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
 
-      await News.insertMany(newsToSave, { ordered: false }).catch(() => {}); // Ignore duplicates
-      return res.json({ success: true, data: { totalResults: data.totalResults, articles: data.articles } });
-    } else {
-      return res.status(404).json({ success: false, message: 'No articles found from API.' });
+    const response = await axios.get("https://newsapi.org/v2/top-headlines", {
+      params: {
+        category,
+        country: "us",
+        page,
+        pageSize,
+        apiKey: process.env.NEWS_API_KEY,
+      },
+    });
+
+    const articles = response.data.articles;
+
+    for (const article of articles) {
+      await News.updateOne(
+        { title: article.title },
+        { ...article, category, savedAt: new Date() },
+        { upsert: true }
+      );
     }
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: 'Internal server error' });
+    res.status(200).json({
+      success: true,
+      fromCache: false,
+      data: {
+        totalResults: response.data.totalResults,
+        articles,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching top headlines:", error.message);
+
+    const cachedNews = await News.find({ category: req.query.category || "general" })
+      .sort({ savedAt: -1 })
+      .limit(10);
+
+    if (cachedNews.length > 0) {
+      return res.status(200).json({
+        success: true,
+        fromCache: true,
+        data: {
+          totalResults: cachedNews.length,
+          articles: cachedNews,
+        },
+      });
+    }
+
+    res.status(500).json({ message: "Failed to fetch top headlines" });
   }
-});
+};
+
+const getCountryNews = async (req, res) => {
+  try {
+    const country = req.params.iso.toLowerCase();
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+
+    const response = await axios.get("https://newsapi.org/v2/top-headlines", {
+      params: {
+        country,
+        page,
+        pageSize,
+        apiKey: process.env.NEWS_API_KEY,
+      },
+    });
+
+    const articles = response.data.articles || [];
+
+    if (articles.length > 0) {
+      for (const article of articles) {
+        await News.updateOne(
+          { title: article.title },
+          { ...article, country, savedAt: new Date() },
+          { upsert: true }
+        );
+      }
+
+      return res.status(200).json({
+        success: true,
+        fromCache: false,
+        data: {
+          totalResults: response.data.totalResults,
+          articles,
+        },
+      });
+    }
+
+    // fallback from MongoDB if API has 0 results
+    const cachedNews = await News.find({ country })
+      .sort({ savedAt: -1 })
+      .limit(pageSize)
+      .skip((page - 1) * pageSize);
+
+    if (cachedNews.length > 0) {
+      return res.status(200).json({
+        success: true,
+        fromCache: true,
+        data: {
+          totalResults: cachedNews.length,
+          articles: cachedNews,
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      fromCache: true,
+      data: {
+        totalResults: 0,
+        articles: [],
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching country news:", error.message);
+    return res.status(500).json({ message: "Failed to fetch country news" });
+  }
+};
+
+module.exports = {
+  getAllNews,
+  getTopHeadlines,
+  getCountryNews,
+};
