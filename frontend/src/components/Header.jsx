@@ -27,7 +27,7 @@ function Header() {
 
   return (
     <header className="site-header">
-      <h1 className="logo">📰 News Aggregator</h1>
+      <h1 className="logo">📰 Newzly</h1>
 
       {!isOpen && (
         <button className="hamburger" onClick={() => setIsOpen(true)}>
@@ -81,6 +81,9 @@ function Header() {
               onClick={() => setIsOpen(false)}
             >
               💻 Technology
+            </Link>
+            <Link to="/top-headlines?category=entertainment" onClick={() => setIsOpen(false)}>
+              🎬 Entertainment
             </Link>
           </div>
         </div>
