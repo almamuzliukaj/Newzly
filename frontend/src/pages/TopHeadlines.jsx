@@ -5,6 +5,7 @@ import API_BASE_URL from "../config/api";
 import EverythingCard from "../components/EverythingCard";
 import Loader from "../components/Loader";
 import "./TopHeadlines.css";
+import ToastNotification from "../components/ToastNotification";
 
 const categories = [
   { name: "general", emoji: "📰" },
@@ -22,6 +23,7 @@ function TopHeadlines() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [showCacheNotice, setShowCacheNotice] = useState(false);
   const pageSize = 6;
 
   const category = searchParams.get("category") || "general";
@@ -39,6 +41,7 @@ function TopHeadlines() {
         );
         setHeadlines(res.data.data.articles);
         setTotal(res.data.data.totalResults);
+        if (res.data?.fromCache === true) setShowCacheNotice(true);
       } catch (err) {
         console.error("Error fetching top headlines:", err);
       } finally {
@@ -49,16 +52,29 @@ function TopHeadlines() {
     fetchHeadlines();
   }, [category, page]);
 
-  const totalPages = Math.ceil(total / pageSize);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(
+      (headlines.length >= pageSize
+        ? total
+        : (page - 1) * pageSize + headlines.length) / pageSize
+    )
+  );
 
   const handleCategoryClick = (cat) => {
     setSearchParams({ category: cat });
-    setPage(1);
   };
 
   return (
     <div className="news-page">
       <h2>🔥 Top Headlines</h2>
+
+      {showCacheNotice && (
+        <ToastNotification
+          message="The API is currently unavailable. News data is being retrieved directly from the database (MongoDB Atlas)."
+          onClose={() => setShowCacheNotice(false)}
+        />
+      )}
 
       <div className="category-buttons">
         {categories.map((cat) => (
@@ -81,15 +97,13 @@ function TopHeadlines() {
               <EverythingCard key={idx} article={article} />
             ))}
           </div>
-           <div className="pagination">
+          <div className="pagination">
             <button disabled={page === 1} onClick={() => setPage(page - 1)}>
               Prev
             </button>
-
             <span style={{ padding: "0.5rem 1rem", fontWeight: "bold" }}>
               Page {page} of {totalPages}
             </span>
-
             <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
               Next
             </button>

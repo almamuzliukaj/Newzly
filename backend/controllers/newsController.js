@@ -4,7 +4,7 @@ const News = require("../models/News");
 const getAllNews = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 10;
+    const pageSize = parseInt(req.query.pageSize) || 6;
 
     const response = await axios.get("https://newsapi.org/v2/everything", {
       params: {
@@ -27,33 +27,35 @@ const getAllNews = async (req, res) => {
       );
     }
 
+    const totalCount = response.data.totalResults;
+
     res.status(200).json({
       success: true,
       fromCache: false,
       data: {
-        totalResults: response.data.totalResults,
+        totalResults: totalCount,
         articles,
       },
     });
   } catch (error) {
     console.error("❌ Error fetching all news:", error.message);
 
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 6;
+    const totalCount = await News.countDocuments();
     const cachedNews = await News.find()
       .sort({ savedAt: -1 })
-      .limit(10);
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
 
-    if (cachedNews.length > 0) {
-      return res.status(200).json({
-        success: true,
-        fromCache: true,
-        data: {
-          totalResults: cachedNews.length,
-          articles: cachedNews,
-        },
-      });
-    }
-
-    res.status(500).json({ message: "Failed to fetch all news" });
+    res.status(200).json({
+      success: true,
+      fromCache: true,
+      data: {
+        totalResults: totalCount,
+        articles: cachedNews,
+      },
+    });
   }
 };
 
@@ -61,7 +63,7 @@ const getTopHeadlines = async (req, res) => {
   try {
     const category = req.query.category || "general";
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 10;
+    const pageSize = parseInt(req.query.pageSize) || 6;
 
     const response = await axios.get("https://newsapi.org/v2/top-headlines", {
       params: {
@@ -94,22 +96,23 @@ const getTopHeadlines = async (req, res) => {
   } catch (error) {
     console.error("❌ Error fetching top headlines:", error.message);
 
-    const cachedNews = await News.find({ category: req.query.category || "general" })
+    const category = req.query.category || "general";
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 6;
+    const totalCount = await News.countDocuments({ category });
+    const cachedNews = await News.find({ category })
       .sort({ savedAt: -1 })
-      .limit(10);
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
 
-    if (cachedNews.length > 0) {
-      return res.status(200).json({
-        success: true,
-        fromCache: true,
-        data: {
-          totalResults: cachedNews.length,
-          articles: cachedNews,
-        },
-      });
-    }
-
-    res.status(500).json({ message: "Failed to fetch top headlines" });
+    res.status(200).json({
+      success: true,
+      fromCache: true,
+      data: {
+        totalResults: totalCount,
+        articles: cachedNews,
+      },
+    });
   }
 };
 
@@ -117,7 +120,7 @@ const getCountryNews = async (req, res) => {
   try {
     const country = req.params.iso.toLowerCase();
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 10;
+    const pageSize = parseInt(req.query.pageSize) || 6;
 
     const response = await axios.get("https://newsapi.org/v2/top-headlines", {
       params: {
@@ -130,53 +133,42 @@ const getCountryNews = async (req, res) => {
 
     const articles = response.data.articles || [];
 
-    if (articles.length > 0) {
-      for (const article of articles) {
-        await News.updateOne(
-          { title: article.title },
-          { ...article, country, savedAt: new Date() },
-          { upsert: true }
-        );
-      }
-
-      return res.status(200).json({
-        success: true,
-        fromCache: false,
-        data: {
-          totalResults: response.data.totalResults,
-          articles,
-        },
-      });
+    for (const article of articles) {
+      await News.updateOne(
+        { title: article.title },
+        { ...article, country, savedAt: new Date() },
+        { upsert: true }
+      );
     }
 
-    // fallback from MongoDB if API has 0 results
+    return res.status(200).json({
+      success: true,
+      fromCache: false,
+      data: {
+        totalResults: response.data.totalResults,
+        articles,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching country news:", error.message);
+
+    const country = req.params.iso.toLowerCase();
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 6;
+    const totalCount = await News.countDocuments({ country });
     const cachedNews = await News.find({ country })
       .sort({ savedAt: -1 })
-      .limit(pageSize)
-      .skip((page - 1) * pageSize);
-
-    if (cachedNews.length > 0) {
-      return res.status(200).json({
-        success: true,
-        fromCache: true,
-        data: {
-          totalResults: cachedNews.length,
-          articles: cachedNews,
-        },
-      });
-    }
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
 
     return res.status(200).json({
       success: true,
       fromCache: true,
       data: {
-        totalResults: 0,
-        articles: [],
+        totalResults: totalCount,
+        articles: cachedNews,
       },
     });
-  } catch (error) {
-    console.error("❌ Error fetching country news:", error.message);
-    return res.status(500).json({ message: "Failed to fetch country news" });
   }
 };
 

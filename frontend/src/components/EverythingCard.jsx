@@ -7,10 +7,18 @@ function EverythingCard({ article }) {
   return (
     <div className="card">
       <img
-        src={isValidUrl ? urlToImage : "https://via.placeholder.com/300x180?text=No+Image"}
-        alt={title}
-        className="card-img"
+        src={
+          article.urlToImage && article.urlToImage.startsWith("http")
+            ? article.urlToImage
+            : "/placeholder.jpg"
+        }
+        alt="news"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "/placeholder.jpg";
+        }}
       />
+
       <div className="card-body">
         <h3 className="card-title">{title}</h3>
         <p className="card-description">{description || "No description available."}</p>

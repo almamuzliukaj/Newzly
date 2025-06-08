@@ -5,6 +5,7 @@ import API_BASE_URL from "../config/api";
 import EverythingCard from "../components/EverythingCard";
 import Loader from "../components/Loader";
 import "./TopHeadlines.css";
+import ToastNotification from "../components/ToastNotification";
 
 const countryMap = {
   us: "United States",
@@ -17,7 +18,6 @@ const countryMap = {
   au: "Australia",
   in: "India",
   jp: "Japan",
-  // mund të shtosh më shumë vende sipas nevojës
 };
 
 function CountryNews() {
@@ -27,6 +27,7 @@ function CountryNews() {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [showCacheNotice, setShowCacheNotice] = useState(false);
   const pageSize = 6;
 
   const countryName = countryMap[iso.toLowerCase()] || iso.toUpperCase();
@@ -47,6 +48,7 @@ function CountryNews() {
         if (res.data && res.data.data) {
           setNews(res.data.data.articles);
           setTotal(res.data.data.totalResults || 0);
+          if (res.data?.fromCache === true) setShowCacheNotice(true);
         } else {
           setNews([]);
           setError("No data received.");
@@ -63,7 +65,14 @@ function CountryNews() {
     fetchCountryNews();
   }, [iso, page]);
 
-  const totalPages = Math.ceil(total / pageSize);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(
+      (news.length >= pageSize
+        ? total
+        : (page - 1) * pageSize + news.length) / pageSize
+    )
+  );
 
   return (
     <div className="news-page">
@@ -75,6 +84,13 @@ function CountryNews() {
           style={{ width: "32px", height: "24px", borderRadius: "3px" }}
         />
       </h2>
+
+      {showCacheNotice && (
+        <ToastNotification
+          message="The API is currently unavailable. News data is being retrieved directly from the database (MongoDB Atlas)."
+          onClose={() => setShowCacheNotice(false)}
+        />
+      )}
 
       {loading ? (
         <Loader />

@@ -3,6 +3,7 @@ import axios from "axios";
 import API_BASE_URL from "../config/api";
 import EverythingCard from "../components/EverythingCard";
 import Loader from "../components/Loader";
+import ToastNotification from "../components/ToastNotification";
 
 function AllNews() {
   const [news, setNews] = useState({ articles: [] });
@@ -10,6 +11,7 @@ function AllNews() {
   const [page, setPage] = useState(1);
   const pageSize = 6;
   const [loading, setLoading] = useState(true);
+  const [showCacheNotice, setShowCacheNotice] = useState(false);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -19,6 +21,7 @@ function AllNews() {
         const data = res.data?.data || { totalResults: 0, articles: [] };
         setNews(data);
         setTotal(data.totalResults);
+        if (res.data?.fromCache === true) setShowCacheNotice(true);
       } catch (err) {
         console.error("Error fetching all news:", err);
         setNews({ articles: [] });
@@ -31,11 +34,26 @@ function AllNews() {
     fetchNews();
   }, [page]);
 
-  const totalPages = Math.ceil(total / pageSize);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(
+      (news.articles.length >= pageSize
+        ? total
+        : (page - 1) * pageSize + news.articles.length) / pageSize
+    )
+  );
 
   return (
     <div className="news-page">
       <h2>🌍 All News</h2>
+
+      {showCacheNotice && (
+        <ToastNotification
+          message="The API is currently unavailable. News data is being retrieved directly from the database (MongoDB Atlas)."
+          onClose={() => setShowCacheNotice(false)}
+        />
+      )}
+
       {loading ? (
         <Loader />
       ) : (
@@ -50,11 +68,9 @@ function AllNews() {
               <button disabled={page === 1} onClick={() => setPage(page - 1)}>
                 Prev
               </button>
-
               <span style={{ padding: "0.5rem 1rem", fontWeight: "bold" }}>
                 Page {page} of {totalPages}
               </span>
-
               <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
                 Next
               </button>
