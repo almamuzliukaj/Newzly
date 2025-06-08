@@ -7,6 +7,7 @@ import TopHeadlines from "./pages/TopHeadlines";
 import CountryNews from "./pages/CountryNews";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
+import Preferences from "./pages/Preferences";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="all-news" element={<AllNews />} />
         <Route path="top-headlines" element={<TopHeadlines />} />
         <Route path="country/:iso" element={<CountryNews />} />
+      <Route path="preferences" element={<Preferences />} />
       </Route>
     </Routes>
   );

@@ -1,3 +1,4 @@
+// Header.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
@@ -44,9 +45,13 @@ function Header() {
           </span>
         )}
 
-
         <Link to="/all-news" onClick={() => setIsOpen(false)}>
           All News
+        </Link>
+
+        {/* ✅ Link për Preferences */}
+        <Link to="/preferences" onClick={() => setIsOpen(false)}>
+          Preferences
         </Link>
 
         <div className="dropdown">
@@ -82,7 +87,10 @@ function Header() {
             >
               💻 Technology
             </Link>
-            <Link to="/top-headlines?category=entertainment" onClick={() => setIsOpen(false)}>
+            <Link
+              to="/top-headlines?category=entertainment"
+              onClick={() => setIsOpen(false)}
+            >
               🎬 Entertainment
             </Link>
           </div>
@@ -132,7 +140,6 @@ function Header() {
           </svg>
           Logout
         </button>
-
       </nav>
     </header>
   );
