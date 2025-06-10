@@ -1,11 +1,11 @@
-// frontend/tailwind.config.js
 export default {
+  // Files Tailwind should scan to generate utility classes
   content: [
-    "./index.html",
-    "./src/**/*.{js,jsx}",
+    "./index.html",                 // Include index.html
+    "./src/**/*.{js,jsx}",          // Include all JS and JSX files inside src/
   ],
   theme: {
-    extend: {},
+    extend: {}, // Custom theme extensions (e.g., colors, fonts) can go here
   },
-  plugins: [],
-}
+  plugins: [], // You can add Tailwind plugins here (e.g., typography, forms)
+};

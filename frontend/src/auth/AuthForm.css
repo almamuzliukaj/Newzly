@@ -1,41 +1,43 @@
-body{
+/* Reset default margin and padding */
+body {
   margin: 0;
   padding: 0;
 }
 
-/* Background for login/register/forgot password */
+/* Background styling for login/register/forgot password pages */
 .login-background {
-  min-height: 100vh;
+  min-height: 100vh; /* Full viewport height */
   background: url('/background.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background-size: cover; /* Cover entire background */
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
   padding: 2rem;
   position: relative;
 }
 
+/* Overlay with semi-transparent dark layer */
 .login-background::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 0;
+  inset: 0; /* Top, right, bottom, left = 0 */
+  background: rgba(0, 0, 0, 0.6); /* Black with 60% opacity */
+  z-index: 0; /* Behind the form */
 }
 
-/* Container for auth forms */
+/* Container for authentication forms */
 .auth-container {
   position: relative;
-  z-index: 1;
+  z-index: 1; /* Above overlay */
   max-width: 400px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.93);
-  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.93); /* Slightly transparent white */
+  border-radius: 30px; /* Rounded corners */
   padding: 2rem;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); /* Soft glow */
 }
 
-/* Headings */
+/* Headings inside auth container */
 .auth-container h2 {
   text-align: center;
   margin-bottom: 1.5rem;
@@ -43,12 +45,13 @@ body{
   font-size: 1.7rem;
 }
 
-/* Form styling */
+/* Form layout with vertical stacking */
 .auth-form {
   display: flex;
   flex-direction: column;
 }
 
+/* Styling input fields */
 .auth-form input {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
@@ -58,70 +61,65 @@ body{
   background-color: #fdfdfb;
 }
 
+/* Styling buttons */
 .auth-form button {
   padding: 0.75rem;
   font-size: 1rem;
-  background-color: #4a3f3f;
+  background-color: #4a3f3f; /* Dark brown */
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease; /* Smooth hover */
 }
 
+/* Button hover effect */
 .auth-form button:hover {
-  background-color: #3a2418;
+  background-color: #3a2418; /* Darker brown */
 }
 
-/* Links and extras */
+/* Paragraph styling inside forms */
 .auth-form p {
   margin-top: 1rem;
   text-align: center;
   color: #444;
-}
-
-.auth-form a {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.auth-form a:hover {
-  text-decoration: underline;
-}
-
-/* Error and Success messages */
-.error-msg {
-  color: #b03030;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.success-msg {
-  color: #0b7c2d;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-.auth-form p {
-  margin-top: 0.5rem;
-  text-align: center;
   font-size: 0.95rem;
-  color: #444;
 }
+
+/* Links inside forms */
 .auth-form a {
-  color: #2563eb;
+  color: #2563eb; /* Blue */
   font-weight: 500;
   text-decoration: none;
 }
+
+/* Link hover underline */
 .auth-form a:hover {
   text-decoration: underline;
 }
-h2{
-  padding: 80px 0px 0px 0px;
+
+/* Error message styling */
+.error-msg {
+  color: #b03030; /* Red */
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
 }
-/* Responsive */
+
+/* Success message styling */
+.success-msg {
+  color: #0b7c2d; /* Green */
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Extra padding for h2 */
+h2 {
+  padding: 80px 0 0 0;
+}
+
+/* Responsive styles for small screens */
 @media (max-width: 480px) {
   .auth-container {
     padding: 1.5rem;

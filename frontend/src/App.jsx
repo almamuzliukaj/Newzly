@@ -12,25 +12,26 @@ import Preferences from "./pages/Preferences";
 function App() {
   return (
     <Routes>
-      {/* Public pages (pa login) */}
+      {/* Public routes - accessible without login */}
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
 
-      {/* Private pages */}
+      {/* Protected routes - accessible only if authenticated */}
       <Route
         path="/"
         element={
           <ProtectedRoute>
-            <Layout />
+            <Layout /> {/* Layout wraps nested routes */}
           </ProtectedRoute>
         }
       >
-        <Route index element={<AllNews />} />
-        <Route path="all-news" element={<AllNews />} />
-        <Route path="top-headlines" element={<TopHeadlines />} />
-        <Route path="country/:iso" element={<CountryNews />} />
-      <Route path="preferences" element={<Preferences />} />
+        {/* Nested routes inside Layout */}
+        <Route index element={<AllNews />} /> {/* Default home page */}
+        <Route path="all-news" element={<AllNews />} /> {/* All news page */}
+        <Route path="top-headlines" element={<TopHeadlines />} /> {/* Top headlines page */}
+        <Route path="country/:iso" element={<CountryNews />} /> {/* News by country based on ISO code */}
+        <Route path="preferences" element={<Preferences />} /> {/* User preferences page */}
       </Route>
     </Routes>
   );

@@ -5,10 +5,14 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <h2>📊 Welcome to Your News Dashboard</h2>
+      {/* Navigation links to main news sections */}
       <div className="dashboard-links">
-        <Link to="/all-news">🌍 All News</Link>
-        <Link to="/top-headlines">🔥 Top Headlines</Link>
-        <Link to="/country/us">🇺🇸 Country News (US)</Link>
+        <Link to="/top-headlines" className="dashboard-link">
+          🇺🇸 Top Headlines (US)
+        </Link>
+        <Link to="/all-news" className="dashboard-link">
+          🌍 All News
+        </Link>
       </div>
     </div>
   );

@@ -1,13 +1,18 @@
+/* Container for the preferences page with padding and centered text */
 .preferences-page {
   padding: 2rem;
   text-align: center;
 }
+
+/* Grid layout for preference cards, auto-filling columns with minimum width 160px, and spacing between */
 .preferences-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
   margin-top: 2rem;
 }
+
+/* Individual preference card style with background, padding, rounded corners, shadow, bold text, and centered content */
 .pref-card {
   background: #f4f4f4;
   padding: 1rem;
@@ -20,15 +25,21 @@
   justify-content: center;
   min-height: 60px;
 }
+
+/* Hover effect on preference cards: slight background change and scaling up */
 .pref-card:hover {
   background: #e0e0e0;
   transform: scale(1.03);
 }
+
+/* Container for flag and text inside a preference card, aligned center with gap */
 .pref-flag {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
+
+/* Flag image style with fixed width and height, rounded corners, and object fit */
 .flag-img {
   width: 24px;
   height: 18px;

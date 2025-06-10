@@ -1,6 +1,7 @@
 import "./Preferences.css";
 import { useNavigate } from "react-router-dom";
 
+// List of news categories and countries with their respective labels and flags
 const preferences = [
     { category: "general", label: "📰 General News" },
     { category: "business", label: "💼 Business" },
@@ -22,13 +23,16 @@ const preferences = [
 ];
 
 function Preferences() {
+    // React Router's navigation hook to programmatically change routes
     const navigate = useNavigate();
 
+    // Handle click on a preference: navigate either to country or category page
     const handleClick = (category) => {
+        // If category length <= 3, treat it as a country code
         if (category.length <= 3) {
-            navigate(`/country/${category}`);
+            navigate(`/country/${category}`); // Navigate to country-specific news page
         } else {
-            navigate(`/top-headlines?category=${category}`);
+            navigate(`/top-headlines?category=${category}`); // Navigate to category news page
         }
     };
 
@@ -39,6 +43,7 @@ function Preferences() {
                 Discover news that matters to you. Click on a category or country below to explore personalized headlines.
             </p>
             <div className="preferences-grid">
+                {/* Render each preference as a clickable card */}
                 {preferences.map((pref) => (
                     <div
                         className="pref-card"
@@ -46,6 +51,7 @@ function Preferences() {
                         onClick={() => handleClick(pref.category)}
                         style={{ cursor: "pointer" }}
                     >
+                        {/* If the preference has a flag, show the flag image */}
                         {pref.flag ? (
                             <div className="pref-flag">
                                 <img
@@ -56,6 +62,7 @@ function Preferences() {
                                 <span>{pref.label}</span>
                             </div>
                         ) : (
+                            // Otherwise, just display the label with emoji/icon
                             <span className="pref-icon">{pref.label}</span>
                         )}
                     </div>

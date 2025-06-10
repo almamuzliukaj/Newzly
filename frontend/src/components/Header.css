@@ -1,29 +1,30 @@
 .site-header {
-  background-color: #4a3f3f;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: fixed;
+  background-color: #4a3f3f; /* Dark brown background */
+  color: white; /* White text */
+  padding: 1rem 2rem; /* Padding around */
+  display: flex; /* Flex container */
+  align-items: center; /* Vertically center */
+  justify-content: space-between; /* Space between logo and nav */
+  position: fixed; /* Fix to top */
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000; /* Stay above content */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow */
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.5rem; /* Larger font */
+  font-weight: bold; /* Bold text */
 }
 
 .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  display: flex; /* Flex container */
+  align-items: center; /* Vertical center */
+  gap: 1rem; /* Space between links */
 }
 
+/* Common styles for links and buttons */
 .nav-links a,
 .dropbtn,
 .logout-btn {
@@ -35,10 +36,11 @@
   cursor: pointer;
 }
 
+/* Styling the logout button with gradient and rounded shape */
 .logout-btn {
   background: linear-gradient(135deg, #655656, #dcd4d4);
   padding: 0.5rem 1.2rem;
-  border-radius: 100px;
+  border-radius: 100px; /* Pill shape */
   border: none;
   color: white;
   font-weight: 600;
@@ -47,36 +49,41 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.4); /* Red glow */
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
+/* Hover effect for logout button */
 .logout-btn:hover {
   background: linear-gradient(135deg, #574c4c, #b91c1c);
   box-shadow: 0 6px 12px rgba(185, 28, 28, 0.6);
   transform: scale(1.05);
 }
 
+/* Active (pressed) effect for logout button */
 .logout-btn:active {
   transform: scale(0.95);
 }
 
+/* Logout icon sizing */
 .logout-icon {
   width: 20px;
   height: 20px;
   stroke: white;
 }
 
+/* Dropdown container relative positioning */
 .dropdown {
   position: relative;
 }
 
+/* Dropdown menu styling */
 .dropdown-content {
   position: absolute;
   background-color: white;
   color: black;
   min-width: 180px;
-  display: none;
+  display: none; /* Hidden by default */
   z-index: 999;
   flex-direction: column;
   border-radius: 6px;
@@ -84,6 +91,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Dropdown links styling */
 .dropdown-content a {
   padding: 0.5rem 1rem;
   text-decoration: none;
@@ -94,29 +102,33 @@
   font-size: 0.95rem;
 }
 
+/* Hover effect on dropdown links */
 .dropdown-content a:hover {
   background-color: #f3f4f6;
 }
 
+/* Show dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: flex;
 }
 
+/* Hamburger menu button styling */
 .hamburger {
   font-size: 1.5rem;
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  display: none;
+  display: none; /* Hidden by default */
 }
 
 /* -------- Mobile Menu -------- */
 @media (max-width: 768px) {
   .hamburger {
-    display: block;
+    display: block; /* Show hamburger on mobile */
   }
 
+  /* Mobile nav styles */
   .nav-links {
     position: fixed;
     top: 0;
@@ -128,15 +140,17 @@
     align-items: flex-start;
     text-align: left;
     padding: 2rem 1.5rem;
-    transform: translateX(-100%);
+    transform: translateX(-100%); /* Hide menu initially */
     transition: transform 0.3s ease;
     z-index: 1001;
   }
 
+  /* Show nav when open */
   .nav-links.open {
     transform: translateX(0%);
   }
 
+  /* Mobile nav links fill width */
   .nav-links a,
   .dropbtn,
   .logout-btn {
@@ -145,6 +159,7 @@
     padding: 1rem;
   }
 
+  /* Dark overlay when menu is open */
   .overlay {
     position: fixed;
     top: 0;
@@ -155,23 +170,18 @@
     z-index: 1000;
   }
 
+  /* Dropdown content relative for mobile */
   .dropdown-content {
     position: relative;
     background-color: #fff;
   }
 
+  /* Close text styling */
   .close-text {
     align-self: flex-end;
-    margin-bottom: 1rem;
-    color: #fff;
+    padding: 0.5rem 1rem;
     cursor: pointer;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 0.2rem 0;
-    transition: color 0.2s ease;
-  }
-
-  .close-text:hover {
-    color: #f87171;
+    color: #000;
+    font-weight: bold;
   }
 }

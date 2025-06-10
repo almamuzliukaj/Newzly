@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import "./TopHeadlines.css";
 import ToastNotification from "../components/ToastNotification";
 
+// List of news categories with corresponding emoji icons
 const categories = [
   { name: "general", emoji: "📰" },
   { name: "business", emoji: "💼" },
@@ -18,20 +19,31 @@ const categories = [
 ];
 
 function TopHeadlines() {
+  // Hook to read and set URL search parameters (query params)
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // State variables to store news articles, loading status, current page, total results, and cache notice visibility
   const [headlines, setHeadlines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [showCacheNotice, setShowCacheNotice] = useState(false);
+
+  // Number of articles per page for pagination
   const pageSize = 6;
 
+  // Extract category from URL params or fallback to 'general'
   const category = searchParams.get("category") || "general";
 
+  // Key used to track if the cache notice has been shown before (in localStorage)
+  const cacheNoticeKey = "has-shown-cache-notice";
+
+  // Reset page to 1 whenever the category changes
   useEffect(() => {
     setPage(1);
   }, [category]);
 
+  // Fetch news articles from API whenever category or page changes
   useEffect(() => {
     const fetchHeadlines = async () => {
       setLoading(true);
@@ -41,7 +53,15 @@ function TopHeadlines() {
         );
         setHeadlines(res.data.data.articles);
         setTotal(res.data.data.totalResults);
-        if (res.data?.fromCache === true) setShowCacheNotice(true);
+
+        // Show cache notice once if data is loaded from cache
+        if (
+          res.data?.fromCache === true &&
+          localStorage.getItem(cacheNoticeKey) !== "true"
+        ) {
+          setShowCacheNotice(true);
+          localStorage.setItem(cacheNoticeKey, "true");
+        }
       } catch (err) {
         console.error("Error fetching top headlines:", err);
       } finally {
@@ -52,63 +72,77 @@ function TopHeadlines() {
     fetchHeadlines();
   }, [category, page]);
 
-  const totalPages = Math.max(
-    1,
-    Math.ceil(
-      (headlines.length >= pageSize
-        ? total
-        : (page - 1) * pageSize + headlines.length) / pageSize
-    )
-  );
+  // Calculate total number of pages for pagination
+  const totalPages = Math.ceil(total / pageSize);
 
-  const handleCategoryClick = (cat) => {
-    setSearchParams({ category: cat });
+  // Handle page change when user clicks pagination buttons
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setPage(newPage);
+    }
+  };
+
+  // Handle category selection button click
+  const handleCategoryClick = (catName) => {
+    setSearchParams({ category: catName });
   };
 
   return (
-    <div className="news-page">
-      <h2>🔥 Top Headlines</h2>
+    <div className="top-headlines-page">
+      <h2>🗞️ Top Headlines</h2>
 
-      {showCacheNotice && (
-        <ToastNotification
-          message="The API is currently unavailable. News data is being retrieved directly from the database (MongoDB Atlas)."
-          onClose={() => setShowCacheNotice(false)}
-        />
-      )}
-
+      {/* Category filter buttons */}
       <div className="category-buttons">
-        {categories.map((cat) => (
+        {categories.map(({ name, emoji }) => (
           <button
-            key={cat.name}
-            onClick={() => handleCategoryClick(cat.name)}
-            className={`category-btn ${category === cat.name ? "selected" : ""}`}
+            key={name}
+            className={`category-btn ${category === name ? "selected" : ""}`}
+            onClick={() => handleCategoryClick(name)}
           >
-            <span className="icon">{cat.emoji}</span> {cat.name.toUpperCase()}
+            <span className="icon">{emoji}</span> {name}
           </button>
         ))}
       </div>
 
-      {loading ? (
-        <Loader />
-      ) : (
+      {/* Show loader while loading */}
+      {loading && <Loader />}
+
+      {/* Display articles grid */}
+      {!loading && (
         <>
           <div className="news-grid">
-            {headlines.map((article, idx) => (
-              <EverythingCard key={idx} article={article} />
+            {headlines.map((article, index) => (
+              <EverythingCard key={index} article={article} />
             ))}
           </div>
+
+          {/* Pagination controls */}
           <div className="pagination">
-            <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+            <button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+            >
               Prev
             </button>
-            <span style={{ padding: "0.5rem 1rem", fontWeight: "bold" }}>
+            <span>
               Page {page} of {totalPages}
             </span>
-            <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+            <button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages}
+            >
               Next
             </button>
           </div>
         </>
+      )}
+
+      {/* Show cache notification */}
+      {showCacheNotice && (
+        <ToastNotification
+          message="Info: Data is served from cache for faster loading."
+          onClose={() => setShowCacheNotice(false)}
+        />
       )}
     </div>
   );
