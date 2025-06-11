@@ -1,30 +1,50 @@
-# 🏁 Sprint 1 Plan
+# 🚀 Sprint 1 Plan
 
-## Sprint Goal
-Implement secure user registration, login, and password reset.
+## 🏁 **Sprint Goal**  
+Implement the basic user registration, login, and forgot password functionality.
 
-## Duration
-April 24 – May 01, 2025
+## 📅 **Sprint Duration**  
+**1 week** (April 24 – May 01, 2025)
 
-## User Stories Completed
-- ✅ User Registration
-- ✅ User Login
-- ✅ Forgot Password
+## 📌 **Selected User Stories**
+- **User Registration (HIGH)**  
+- **User Login (HIGH)**  
+- **Forgot Password (HIGH)**
 
-## Tasks
-- Design and implement registration/login forms (HTML/CSS)
-- Add client-side and server-side validation
-- Create API endpoints for registration, login, and password reset
-- Hash passwords using bcrypt
-- Store JWT in local/session storage with "Remember Me"
-- UI feedback for errors and success
+---
 
-## Team Tasks
-- **Alma Muzliukaj**: Frontend forms, validation, UI styling
-- **Rinesa Bislimi**: Backend APIs, database schema, JWT handling
+## ✅ **Tasks**
+- Create database schema for user accounts  
+- Design responsive registration form (HTML/CSS)  
+- Implement client-side form validation  
+- Create API endpoint for user registration  
+- Add server-side validation and error handling  
+- Set up email confirmation after registration (optional)  
+- Design responsive login form (HTML/CSS)  
+- Implement form input validation  
+- Create API endpoint for user authentication  
+- Set up session or token-based authentication  
+- Add "Remember Me" functionality  
+- Implement basic "Forgot Password" feature  
 
-## Definition of Done
-- Features are committed and functional
-- Validations and security implemented
-- Code reviewed and tested
-- Documentation updated
+---
+
+## 👥 **Team Member Tasks**
+
+**Alma Muzliukaj**  
+- Frontend development (registration, login, and reset password forms)  
+- Client-side validation  
+- UI design
+
+**Rinesa Bislimi**  
+- Backend API development  
+- Database schema  
+- Authentication and session handling
+
+---
+
+## ✅ **Definition of Done**
+- Code is committed to the repository  
+- Features are tested and work in the development environment  
+- Code is reviewed by the other team member  
+- Relevant documentation is written and up to date
