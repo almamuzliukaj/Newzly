@@ -1,37 +1,30 @@
-# Sprint 1 Plan
+# 🏁 Sprint 1 Plan
 
 ## Sprint Goal
-Implement the basic user registration and login functionality.
+Implement secure user registration, login, and password reset.
 
-## Sprint Duration
-1 week (April 24 - May 01, 2025)
+## Duration
+April 24 – May 01, 2025
 
-## Selected User Stories
+## User Stories Completed
+- ✅ User Registration
+- ✅ User Login
+- ✅ Forgot Password
 
-1. **User Registration** (HIGH)  
-   Tasks:  
-   - Create database schema for user accounts  
-   - Design responsive registration form (HTML/CSS)  
-   - Implement client-side form validation  
-   - Create API endpoint for user registration  
-   - Add server-side validation and error handling  
-   - Set up email confirmation after registration  
+## Tasks
+- Design and implement registration/login forms (HTML/CSS)
+- Add client-side and server-side validation
+- Create API endpoints for registration, login, and password reset
+- Hash passwords using bcrypt
+- Store JWT in local/session storage with "Remember Me"
+- UI feedback for errors and success
 
-2. **User Login** (HIGH)  
-   Tasks:  
-   - Design responsive login form (HTML/CSS)  
-   - Implement form input validation  
-   - Create API endpoint for user authentication  
-   - Set up session or token-based authentication  
-   - Add "Remember me" functionality  
-   - Implement basic "Forgot password" feature  
-
-## Team Member Tasks
-- **Alma Muzliukaj**: Frontend development (registration and login forms), client-side validation, UI design  
-- **Rinesa Bislimi**: Backend API development, database schema, authentication and session handling  
+## Team Tasks
+- **Alma Muzliukaj**: Frontend forms, validation, UI styling
+- **Rinesa Bislimi**: Backend APIs, database schema, JWT handling
 
 ## Definition of Done
-- Code is committed to the repository  
-- Features are tested and work in the development environment  
-- Code is reviewed by the other team member  
-- Relevant documentation is written and up to date  
+- Features are committed and functional
+- Validations and security implemented
+- Code reviewed and tested
+- Documentation updated
